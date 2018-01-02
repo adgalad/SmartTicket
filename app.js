@@ -24,7 +24,7 @@ function deploy(account, contractName){
     {from: account, gas: '4700000'}
   )
 
-  contract.deploy({data:json.bytecode}).send({from: account, gas: '4700000'})
+  //contract.deploy({data:json.bytecode}).send({from: account, gas: '4700000'})
   contracts[json.contractName] = contract.methods
 }
 
