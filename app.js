@@ -1,33 +1,31 @@
 module.exports = {contracts, deploy}
 
 // REQUIRES
-const express = require('express');
-const cors    = require('cors');
-const Web3    = require('web3')
-const config  = require('./config').networks.development
+const express = require('express')
+const cors = require('cors')
+const Web3 = require('web3')
+const config = require('./config').networks.development
 
 // Init Express with cors
 const app = express()
 app.use(cors())
 
 // Init Web3 using config.js
-const web3 = new Web3 ("http://" + config.host + ":" + config.port)
+const web3 = new Web3('http://' + config.host + ':' + config.port)
 
 var contracts = {}
 
-function deploy(account, contractName){
-  const json = require("./build/contracts/" + contractName + ".json");
-  
+function deploy (account, contractName) {
+  const json = require('./build/contracts/' + contractName + '.json')
   var contract = new web3.eth.Contract(
     json.abi,
-    json.networks["5777"].address,
+    json.networks['5777'].address,
     {from: account, gas: '4700000'}
   )
 
-  contract.deploy({data:json.bytecode}).send({from: account, gas: '4700000'})
+  contract.deploy({data: json.bytecode}).send({from: account, gas: '4700000'})
   contracts[json.contractName] = contract.methods
 }
-
 
 // web3.eth.getAccounts().then(function(accounts){ 
 //   deploy(accounts[0], "MovieTheater");
@@ -46,38 +44,33 @@ function deploy(account, contractName){
 
 // })
 
-
 app.get('/deploy', (req, res, next) => {
-  web3.eth.getAccounts().then(function(accounts){ 
-    deploy(accounts[0], "MovieTheater");
+  web3.eth.getAccounts().then(function (accounts) {
+    deploy(accounts[0], 'MovieTheater')
     res.send('Did it')
   })
 })
 
-
-
-//ROUTES
+// ROUTES
 app.get('/setNumberOfTheaters', (req, res, next) => {
   web3.eth.getAccounts().then(accounts => {
-    const c      = contracts.MovieTheater;
-    const sender = {from: accounts[0],gas: '4700000'}
-    const n      = req.query.n;
-    
+    const c = contracts.MovieTheater
+    const sender = {from: accounts[0], gas: '4700000'}
+    const n = req.query.n
     c.setNumberOfTheaters(n).send(sender).then(e => {
-      c.setNumberOfTheaters(n).send(sender).then( e =>{
+      c.setNumberOfTheaters(n).send(sender).then(e => {
         c.nTheater().call().then(e => {
           var a = {
             from: accounts[0],
             gas: '4700000',
             res: e
           }
-          res.send(a);  
+          res.send(a)
         })
       })
-    });
+    })
   })
 })
-
 
 app.get('/nTheater', (req, res, next) => {
   web3.eth.getAccounts().then(accounts => {
@@ -86,5 +79,4 @@ app.get('/nTheater', (req, res, next) => {
 })
 
 app.listen(3000)
-
-
+module.exports = {contracts, deploy}
