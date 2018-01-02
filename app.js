@@ -15,7 +15,6 @@ var contracts = {}
 
 function deploy (account, contractName) {
   const json = require('./build/contracts/' + contractName + '.json')
-
   var contract = new web3.eth.Contract(
     json.abi,
     json.networks['5777'].address,
@@ -54,7 +53,6 @@ app.get('/setNumberOfTheaters', (req, res, next) => {
     const c = contracts.MovieTheater
     const sender = {from: accounts[0], gas: '4700000'}
     const n = req.query.n
-
     c.setNumberOfTheaters(n).send(sender).then(e => {
       c.nTheater().call().then(e => {
         var a = {
@@ -75,3 +73,5 @@ app.get('/nTheater', (req, res, next) => {
 })
 
 app.listen(3000)
+
+// module.exports = {contracts, deploy}
