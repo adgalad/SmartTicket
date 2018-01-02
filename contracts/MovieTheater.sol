@@ -114,10 +114,10 @@ contract MovieTheater {
 
   function setNumberOfTheaters(uint8 _nTheater) public {
     nTheater = _nTheater;
-    uint8 i;
-    for (i = 0 ; i < nTheater ; i++){
-      eventsInTheater[i] = new MovieEvent[](0);
-    }
+    // uint8 i;
+    // for (i = 0 ; i < nTheater ; i++){
+    //   eventsInTheater[i] = new MovieEvent[](0);
+    // }
   }
 
   function createEvent( uint8 theaterId,
