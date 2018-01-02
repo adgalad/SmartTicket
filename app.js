@@ -11,7 +11,7 @@ const app = express()
 app.use(cors())
 
 // Init Web3 using config.js
-const web3 = new Web3("http://" + config.host + ":" + config.port)
+const web3 = new Web3 ("http://" + config.host + ":" + config.port)
 
 var contracts = {}
 
