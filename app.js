@@ -20,6 +20,7 @@ function deploy (account, contractName) {
     json.networks['5777'].address,
     {from: account, gas: '4700000'}
   )
+  console.log(json.networks['5777'].address)
   contracts[json.contractName] = contract.methods
 }
 
