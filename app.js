@@ -15,11 +15,14 @@ var contracts = {}
 
 function deploy (account, contractName) {
   const json = require('./build/contracts/' + contractName + '.json')
-  var contract = new web3.eth.Contract(
-    json.abi,
-    json.networks['5777'].address,
-    {from: account, gas: '4700000'}
-  )
+
+  for (key in json.networks) {
+    var contract = new web3.eth.Contract(
+      json.abi,
+      json.networks[key].address,
+      {from: account, gas: '4700000'}
+    )
+  }
   contracts[json.contractName] = contract.methods
 }
 
