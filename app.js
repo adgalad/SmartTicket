@@ -3,6 +3,7 @@ const express = require('express')
 const cors = require('cors')
 const Web3 = require('web3')
 const config = require('./config').networks.development
+const fs = require('fs')
 
 // Init Express with cors
 const app = express()
@@ -13,35 +14,32 @@ const web3 = new Web3('http://' + config.host + ':' + config.port)
 
 var contracts = {}
 
-function deploy (account, contractName) {
-  const json = require('./build/contracts/' + contractName + '.json')
+function migrate (account, contractName) {
+  const fileName = './build/contracts/' + contractName + '.json'
+  const json = require(fileName)
+  var contract = new web3.eth.Contract(json.abi, {from: account, gas: '4700000'})
 
-  for (key in json.networks) {
-    var contract = new web3.eth.Contract(
-      json.abi,
-      json.networks[key].address,
-      {from: account, gas: '4700000'}
-    )
-  }
-  contracts[json.contractName] = contract.methods
+  console.log('Migrating contract for', contractName)
+
+  contract.deploy({data: json.bytecode}).send({from: account, gas: '4700000'}).then(e => {
+    contract.options.address = e._address
+    json['address'] = e._address
+    fs.writeFile(fileName, JSON.stringify(json), 'utf8', e => {
+      if (e) console.log(e)
+      else console.log('Saving', fileName)
+    })
+  })
 }
 
-// web3.eth.getAccounts().then(function(accounts){
-//   deploy(accounts[0], "MovieTheater");
-//   return accounts;
-// }).then(accounts =>{
-//   const c      = contracts.MovieTheater;
-//   const sender = {from: accounts[0],gas: '4700000'}
-
-//   c.setNumberOfTheaters(2).send(sender).then(() => {
-//     c.nTheater().call().then(e => console.log(e));
-//   });
-
-//   // c.setNumberOfTheaters(112).send(sender).then(() => {
-//   //   c.nTheater().call().then(e => console.log(e));
-//   // })
-
-// })
+function deploy (account, contractName) {
+  const fileName = './build/contracts/' + contractName + '.json'
+  const json = require(fileName)
+  contracts[contractName] = new web3.eth.Contract(
+    json.abi,
+    json.address,
+    {from: account, gas: '4700000'}
+  ).methods
+}
 
 app.get('/deploy', (req, res, next) => {
   web3.eth.getAccounts().then(function (accounts) {
@@ -53,19 +51,9 @@ app.get('/deploy', (req, res, next) => {
 // ROUTES
 app.get('/setNumberOfTheaters', (req, res, next) => {
   web3.eth.getAccounts().then(accounts => {
-    const c = contracts.MovieTheater
     const sender = {from: accounts[0], gas: '4700000'}
-    const n = req.query.n
-    c.setNumberOfTheaters(n).send(sender).then(e => {
-      c.nTheater().call().then(e => {
-        var a = {
-          from: accounts[0],
-          gas: '4700000',
-          res: e
-        }
-        res.send(a)
-      })
-    })
+    contracts.MovieTheater.setNumberOfTheaters(req.query.n).send(sender)
+    res.send({from: accounts[0], gas: '4700000', n: req.query.n})
   })
 })
 
@@ -75,6 +63,18 @@ app.get('/nTheater', (req, res, next) => {
   })
 })
 
-app.listen(3000)
+const argv = process.argv
+// console.log(argv)
+if (argv[2] === 'run') {
+  web3.eth.getAccounts().then(function (accounts) {
+    deploy(accounts[0], 'MovieTheater')
+    console.log(contracts)
+    app.listen(3000)
+  })
+} else if (argv[2] === 'migrate') {
+  web3.eth.getAccounts().then(function (accounts) {
+    migrate(accounts[0], 'MovieTheater')
+  })
+}
 
 // module.exports = {contracts, deploy}
