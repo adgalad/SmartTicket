@@ -41,13 +41,6 @@ function deploy (account, contractName) {
   ).methods
 }
 
-app.get('/deploy', (req, res, next) => {
-  web3.eth.getAccounts().then(function (accounts) {
-    deploy(accounts[0], 'MovieTheater')
-    res.send('Did it')
-  })
-})
-
 // ROUTES
 app.get('/setNumberOfTheaters', (req, res, next) => {
   web3.eth.getAccounts().then(accounts => {
@@ -68,7 +61,6 @@ const argv = process.argv
 if (argv[2] === 'run') {
   web3.eth.getAccounts().then(function (accounts) {
     deploy(accounts[0], 'MovieTheater')
-    console.log(contracts)
     app.listen(3000)
   })
 } else if (argv[2] === 'migrate') {
