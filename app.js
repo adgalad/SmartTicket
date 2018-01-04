@@ -1,5 +1,5 @@
 // REQUIRES
-var shell = require('shelljs')
+const shell = require('shelljs')
 const express = require('express')
 const cors = require('cors')
 const Web3 = require('web3')
@@ -88,8 +88,6 @@ if (argv[2] === 'run') {
   web3.eth.getAccounts().then(function (accounts) {
     migrate(accounts[0], 'MovieTheater')
   })
-} else if (argv[2] === 'compile') {
-  compile()
 }
 
 // module.exports = {contracts, deploy}
