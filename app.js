@@ -1,4 +1,5 @@
 // REQUIRES
+const shell = require('shelljs')
 const express = require('express')
 const cors = require('cors')
 const Web3 = require('web3')
@@ -15,6 +16,9 @@ const web3 = new Web3('http://' + config.host + ':' + config.port)
 var contracts = {}
 
 function migrate (account, contractName) {
+  // Compile contract
+  shell.exec('rm -r build/ && truffle compile')
+  // Deploy contracts
   const fileName = './build/contracts/' + contractName + '.json'
   const json = require(fileName)
   var contract = new web3.eth.Contract(json.abi, {from: account, gas: '4700000'})
@@ -42,6 +46,22 @@ function deploy (account, contractName) {
 }
 
 // ROUTES
+
+app.get('/deploy', (req, res, next) => {
+  web3.eth.getAccounts().then(function (accounts) {
+    deploy(accounts[0], 'MovieTheater')
+    res.send('Did it')
+  })
+})
+
+app.route('/inicio/:id')
+  .get(
+    function (req, res) {
+      console.log('Entre! ' + req.params.id)
+    }
+
+)
+
 app.get('/setNumberOfTheaters', (req, res, next) => {
   web3.eth.getAccounts().then(accounts => {
     const sender = {from: accounts[0], gas: '4700000'}
@@ -60,6 +80,7 @@ const argv = process.argv
 if (argv[2] === 'run') {
   web3.eth.getAccounts().then(function (accounts) {
     deploy(accounts[0], 'MovieTheater')
+    console.log(contracts)
     app.listen(3000)
   })
 } else if (argv[2] === 'migrate') {

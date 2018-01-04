@@ -1,8 +1,9 @@
-pragma solidity ^0.4.19;
+pragma solidity ^0.4.18;
 
 /**
  * The Event contract
- */
+*/
+
 contract Event {
 
   struct Ticket {
