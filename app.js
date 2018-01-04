@@ -57,7 +57,6 @@ app.get('/nTheater', (req, res, next) => {
 })
 
 const argv = process.argv
-// console.log(argv)
 if (argv[2] === 'run') {
   web3.eth.getAccounts().then(function (accounts) {
     deploy(accounts[0], 'MovieTheater')
