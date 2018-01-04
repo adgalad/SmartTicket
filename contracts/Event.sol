@@ -93,13 +93,13 @@ contract EventPromoter {
   mapping (address => Event) public events;
   address owner;
 
-  function EventPromoter(){
+  function EventPromoter() public{
     owner = msg.sender;
   }
 
   function createEvent (string name,  string place,  uint64 date,
                         uint32 nSeat, bool   resell, bool   delegate) 
-  public ownerOnly() returns (addres){
+  public ownerOnly() returns (address){
     Event e = new Event(name, place, date, nSeat, resell, delegate);
     events[address(e)] = e;
     return address(e);
@@ -113,6 +113,26 @@ contract EventPromoter {
     owner == msg.sender;
     _;
   }
+}
+
+contract Admin {
+  mapping (address => EventPromoter) public promoters;
+  address public owner;
+
+  function Admin() public {
+    owner = msg.sender;
+  }
+  function createPromoter() public ownerOnly() returns(address){
+    EventPromoter p = new EventPromoter();
+    promoters[address(p)] = p;
+    return p;
+  }
+ 
+  modifier ownerOnly() {
+    owner == msg.sender;
+    _;
+  } 
+
 }
 
 
