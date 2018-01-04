@@ -92,9 +92,11 @@ contract Event {
 contract EventPromoter {
   mapping (address => Event) public events;
   address owner;
+  string public hola;
 
-  function EventPromoter() public{
+  function EventPromoter(string h) public{
     owner = msg.sender;
+    hola = h;
   }
 
   function createEvent (string name,  string place,  uint64 date,
@@ -122,10 +124,11 @@ contract Admin {
   function Admin() public {
     owner = msg.sender;
   }
-  function createPromoter() public ownerOnly() returns(address){
-    EventPromoter p = new EventPromoter();
+  function createPromoter(string h) public ownerOnly() returns(address){
+    EventPromoter p = new EventPromoter(h);
     promoters[address(p)] = p;
-    return p;
+    return address(p);
+
   }
  
   modifier ownerOnly() {
