@@ -1,7 +1,9 @@
-var MovieTheater = artifacts.require('MovieTheater')
-var MovieEvent = artifacts.require('MovieEvent')
+var Event = artifacts.require('Event')
+var EventPromoter = artifacts.require('EventPromoter')
+var Admin = artifacts.require('Admin')
 
 module.exports = function (deployer) {
-  deployer.deploy(MovieTheater)
-  deployer.deploy(MovieEvent)
+  deployer.deploy(Event)
+  deployer.deploy(EventPromoter)
+  deployer.deploy(Admin)
 }
