@@ -53,10 +53,11 @@ contract Event is OwnerOnly {
     tickets[seat]  = t;
   }
 
-  function resellTicket(bytes32 buyer, uint32 seat) 
-  public canResell() onTime() ownerOnly() {
+  function resellTicket(bytes32 buyer, uint32 seat, bytes32 delegated) 
+  public canResell() canDelegate() onTime() ownerOnly() {
     require(tickets[seat].hashID != 0 && tickets[seat].hashID != buyer);
     tickets[seat].hashID = buyer;
+    tickets[seat].hashDelegate = delegated;
   }
 
   /* Only Read */

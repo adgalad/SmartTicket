@@ -38,8 +38,6 @@ const Event = {
     )
   },
   create: function (req, res) {
-    // string name,  string place,  uint64 date,
-    // uint32 nSeat, bool   resell, bool   delegate
     var promoterAddress = req.query.promoter
     var c = contracts.EventPromoter
     c.options.address = promoterAddress
