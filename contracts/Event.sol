@@ -4,7 +4,15 @@ pragma solidity ^0.4.18;
  * The Event contract
 */
 
-contract Event {
+contract OwnerOnly{
+  address owner;
+  modifier ownerOnly() { 
+    require(owner == msg.sender);
+    _; 
+  }
+}
+
+contract Event is OwnerOnly {
 
   struct Ticket {
     bytes32 hashID;
@@ -16,8 +24,7 @@ contract Event {
   uint64 public date;
   string public name;
   string public place;
-  address owner;
-
+  
   // Options
   bool public resell;
   bool public delegate;
@@ -82,21 +89,13 @@ contract Event {
     _;
   }
 
-  modifier ownerOnly() {
-    owner == msg.sender;
-    _;
-  }
-
 }
 
-contract EventPromoter {
+contract EventPromoter is OwnerOnly {
   mapping (address => Event) public events;
-  address owner;
-  string public hola;
 
-  function EventPromoter(string h) public{
+  function EventPromoter() public{
     owner = msg.sender;
-    hola = h;
   }
 
   function createEvent (string name,  string place,  uint64 date,
@@ -110,32 +109,25 @@ contract EventPromoter {
   function deleteEvent (address addr) public ownerOnly(){
     delete events[addr];
   }
-
-  modifier ownerOnly() {
-    owner == msg.sender;
-    _;
-  }
 }
 
-contract Admin {
+/*
+ * The contract Admin is the responsable of 
+ * creating new EventPromoters. Is the first contract
+ * deployed when the application is launched
+ */
+contract Admin is OwnerOnly{
   mapping (address => EventPromoter) public promoters;
-  address public owner;
 
   function Admin() public {
     owner = msg.sender;
   }
-  function createPromoter(string h) public ownerOnly() returns(address){
-    EventPromoter p = new EventPromoter(h);
+
+  function createPromoter() public ownerOnly() returns(address){
+    EventPromoter p = new EventPromoter();
     promoters[address(p)] = p;
     return address(p);
-
   }
- 
-  modifier ownerOnly() {
-    owner == msg.sender;
-    _;
-  } 
-
 }
 
 
