@@ -21,32 +21,53 @@ function sendTx (f) {
   })
 }
 
+function callTx (f) {
+  return f.call()
+}
+
 const EventPromoter = {
   create: function (req, res) {
-    var c = contracts.EventPromoter
-    var q = req.query
-
-    c.options.address = q.promoter
-
-    var name = q.name
-    var place = q.place
-    var date = q.date
-    var nSeat = q.nSeat
-    var resell = q.resell
-    var delegate = q.delegate
-
-    sendTx(c.methods.createEvent(name, place, date, nSeat, resell, delegate))
-        .then((e) => {
-          res.send(e)
-        })
+    sendTx(contracts.Admin.methods.createPromoter(req.query.name))
+      .then(e => {
+        res.send(e)
+      }
+    )
   },
 
   list: function (req, res) {
-    console.log('Missing implementation')
+    var c = contracts.Admin
+    callTx(c.methods.listPromoters()).then(e => {
+      var r = {}
+
+      var getName = function (i, contract) {
+        return callTx(contract.methods.name()).then(function (name) {
+          r[name.replace(/['"]+/g, '')] = e[i]
+          if (Object.keys(r).length === e.length) {
+            res.send(r)
+          }
+        })
+      }
+
+      for (var i = 0; i < e.length; i++) {
+        var p = contracts.EventPromoter
+        p.options.address = e[i]
+        getName(i, p)
+      }
+    })
   },
 
   get: function (req, res) {
-    console.log('Missing implementation')
+    var c = contracts.EventPromoter
+    c.options.address = req.query.promoter
+
+    var r = {}
+    callTx(c.methods.name()).then(function (name) {
+      r.name = name.replace(/['"]+/g, '')
+      callTx(c.methods.listEvents()).then(function (events) {
+        r.events = events
+        res.send(r)
+      })
+    })
   }
 }
 

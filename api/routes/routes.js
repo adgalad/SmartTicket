@@ -6,17 +6,11 @@ const express = require('express')
 const routes = express()
 routes.use(cors())
 
-routes.get('/eventPromoter/new', (req, res, next) => {
-  contract.sendTx(contract.Admin.methods.createPromoter()).then(e => {
-    res.send(e)
-  })
-})
-
 routes.route('/eventPromoter')
   .post(contract.EventPromoter.create)
   .get(contract.EventPromoter.list)
 
-// routes.route('/eventPromoter/:id')
-//   .get
+routes.route('/eventPromoter/get')
+  .get(contract.EventPromoter.get)
 
 module.exports = routes

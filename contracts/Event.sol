@@ -93,21 +93,29 @@ contract Event is OwnerOnly {
 
 contract EventPromoter is OwnerOnly {
   mapping (address => Event) public events;
+  string public name;
+  Event[] _events;
 
-  function EventPromoter() public{
+  function EventPromoter(string _name) public{
+    name = _name;
     owner = msg.sender;
   }
 
-  function createEvent (string name,  string place,  uint64 date,
+  function createEvent (string _name,  string place,  uint64 date,
                         uint32 nSeat, bool   resell, bool   delegate) 
   public ownerOnly() returns (address){
-    Event e = new Event(name, place, date, nSeat, resell, delegate);
+    Event e = new Event(_name, place, date, nSeat, resell, delegate);
     events[address(e)] = e;
+    _events.push(e);
     return address(e);
   }
 
   function deleteEvent (address addr) public ownerOnly(){
     delete events[addr];
+  }
+
+  function listEvents()public view returns(Event[]){
+    return _events;
   }
 }
 
@@ -118,16 +126,23 @@ contract EventPromoter is OwnerOnly {
  */
 contract Admin is OwnerOnly{
   mapping (address => EventPromoter) public promoters;
+  EventPromoter[] _promoters;
 
   function Admin() public {
     owner = msg.sender;
   }
 
-  function createPromoter() public ownerOnly() returns(address){
-    EventPromoter p = new EventPromoter();
+  function createPromoter(string name) public ownerOnly() returns(address){
+    EventPromoter p = new EventPromoter(name);
     promoters[address(p)] = p;
+    _promoters.push(p);
     return address(p);
   }
+
+  function listPromoters()public view returns(EventPromoter[]){
+    return _promoters;
+  }
+
 }
 
 
