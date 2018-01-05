@@ -23,7 +23,7 @@ routes.route('/eventPromoter')
   .post(contract.EventPromoter.create)
   .get(contract.EventPromoter.list)
 
-// routes.route('/eventPromoter/:id')
-//   .get
+routes.route('/eventPromoter/get')
+  .get(contract.EventPromoter.get)
 
 module.exports = routes
