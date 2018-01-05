@@ -116,6 +116,36 @@ const EventPromoter = {
   }
 }
 
+const EventOperation = {
+  buyTicket: function (req, res) {
+    var c = contracts.Event
+    c.options.address = req.body.address
+    var owner = web3.utils.fromAscii(req.body.owner)
+    var delegate = web3.utils.fromAscii(req.body.delegate)
+    var seat = parseInt(req.body.seat)
+
+    sendTx(c.methods.buyTicket(owner, seat, delegate)).then(
+      e => {
+        res.send('Ticket Comprado!')
+      }
+    )
+  },
+  resellTicket: function (req, res) {
+    var c = contracts.Event
+    c.options.address = req.body.address
+    var owner = web3.utils.fromAscii(req.body.owner)
+    var delegate = web3.utils.fromAscii(req.body.delegate)
+    var seat = parseInt(req.body.seat)
+
+    sendTx(c.methods.resellTicket(owner, seat, delegate)).then(
+      e => {
+        res.send('Ticket Vendido!')
+      }
+    )
+  }
+}
+
+module.exports.EventOperation = EventOperation
 module.exports.Event = Event
 module.exports.EventPromoter = EventPromoter
 module.exports.loadContract = loadContract

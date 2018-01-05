@@ -23,4 +23,9 @@ routes.route('/eventPromoter')
   .post(contract.EventPromoter.create)
   .get(contract.EventPromoter.get)
 
+/* Event Operations */
+
+routes.post('/event/buyTicket/', contract.EventOperation.buyTicket)
+routes.post('/event/resellTicket/', contract.EventOperation.resellTicket)
+
 module.exports = routes
