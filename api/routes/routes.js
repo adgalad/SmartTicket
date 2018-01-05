@@ -18,6 +18,7 @@ routes.get('/eventPromoter/new', (req, res, next) => {
 // Event
 routes.delete('/event/delete', contract.Event.delete)
 routes.post('/event/create', contract.Event.create)
+routes.get('/event/get', contract.Event.getInfo)
 
 routes.route('/eventPromoter')
   .post(contract.EventPromoter.create)

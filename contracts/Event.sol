@@ -7,7 +7,7 @@ pragma solidity ^0.4.18;
 contract OwnerOnly {
   address owner;
   modifier ownerOnly() { 
-    require(owner == msg.sender);
+    require(owner == tx.origin);
     _; 
   }
 }
@@ -40,7 +40,7 @@ contract Event is OwnerOnly {
     nSeat    = _nSeat;
     resell   = _resell;
     delegate = _delegate;
-    owner    = msg.sender;
+    owner    = tx.origin;
   }    
 
   /* Operations */ 
@@ -58,7 +58,11 @@ contract Event is OwnerOnly {
     require(tickets[seat].hashID != 0 && tickets[seat].hashID != buyer);
     tickets[seat].hashID = buyer;
   }
-  
+
+  /* Only Read */
+  function getInfo() public view returns(string, string, uint64, uint32, bool, bool) {
+    return (name, place, date, nSeat, resell, delegate);
+  }
 
   /* Setters */
   function changeDate(uint64 newDate) public onTime() ownerOnly() {
@@ -97,25 +101,15 @@ contract EventPromoter is OwnerOnly {
   string public name;
   Event[] _events;
 
-<<<<<<< HEAD
-  function EventPromoter() public {
-=======
   function EventPromoter(string _name) public{
     name = _name;
->>>>>>> 341bd04b0a37e7a7ccb6c3447a584103afa5ff54
-    owner = msg.sender;
+    owner = tx.origin;
   }
 
   function createEvent (string _name,  string place,  uint64 date,
                         uint32 nSeat, bool   resell, bool   delegate) 
-<<<<<<< HEAD
-  public ownerOnly() returns (address)
-  {
-    Event e = new Event(name, place, date, nSeat, resell, delegate);
-=======
   public ownerOnly() returns (address){
     Event e = new Event(_name, place, date, nSeat, resell, delegate);
->>>>>>> 341bd04b0a37e7a7ccb6c3447a584103afa5ff54
     events[address(e)] = e;
     _events.push(e);
     return address(e);
@@ -125,7 +119,7 @@ contract EventPromoter is OwnerOnly {
     delete events[addr];
   }
 
-  function listEvents()public view returns(Event[]){
+  function listEvents()public view returns(Event[]) {
     return _events;
   }
 }
@@ -140,7 +134,7 @@ contract Admin is OwnerOnly {
   EventPromoter[] _promoters;
 
   function Admin() public {
-    owner = msg.sender;
+    owner = tx.origin;
   }
 
   function createPromoter(string name) public ownerOnly() returns(address){
