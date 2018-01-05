@@ -97,25 +97,15 @@ contract EventPromoter is OwnerOnly {
   string public name;
   Event[] _events;
 
-<<<<<<< HEAD
-  function EventPromoter() public {
-=======
   function EventPromoter(string _name) public{
     name = _name;
->>>>>>> 341bd04b0a37e7a7ccb6c3447a584103afa5ff54
     owner = msg.sender;
   }
 
   function createEvent (string _name,  string place,  uint64 date,
                         uint32 nSeat, bool   resell, bool   delegate) 
-<<<<<<< HEAD
-  public ownerOnly() returns (address)
-  {
-    Event e = new Event(name, place, date, nSeat, resell, delegate);
-=======
-  public ownerOnly() returns (address){
+  public returns (address){
     Event e = new Event(_name, place, date, nSeat, resell, delegate);
->>>>>>> 341bd04b0a37e7a7ccb6c3447a584103afa5ff54
     events[address(e)] = e;
     _events.push(e);
     return address(e);
@@ -125,7 +115,7 @@ contract EventPromoter is OwnerOnly {
     delete events[addr];
   }
 
-  function listEvents()public view returns(Event[]){
+  function listEvents() public view returns(Event[]){
     return _events;
   }
 }
