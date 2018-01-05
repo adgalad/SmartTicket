@@ -4,7 +4,7 @@ pragma solidity ^0.4.18;
  * The Event contract
 */
 
-contract OwnerOnly{
+contract OwnerOnly {
   address owner;
   modifier ownerOnly() { 
     require(owner == msg.sender);
@@ -32,7 +32,8 @@ contract Event is OwnerOnly {
   /* Constructor */
   function Event (string _name,  string _place,  uint64 _date,
                   uint32 _nSeat, bool   _resell, bool   _delegate) 
-  public {
+  public
+  {
     name     = _name;
     place    = _place;
     date     = _date;
@@ -44,7 +45,7 @@ contract Event is OwnerOnly {
 
   /* Operations */ 
   function buyTicket(bytes32 buyer, uint32 seat, bytes32 delegated) 
-  public canDelegate(delegated) onTime() ownerOnly(){
+  public canDelegate(delegated) onTime() ownerOnly() {
     require(tickets[seat].hashID == 0);
     Ticket memory t;
     t.hashID       = buyer; 
@@ -53,22 +54,22 @@ contract Event is OwnerOnly {
   }
 
   function resellTicket(bytes32 buyer, uint32 seat) 
-  public canResell() onTime() ownerOnly(){
+  public canResell() onTime() ownerOnly() {
     require(tickets[seat].hashID != 0 && tickets[seat].hashID != buyer);
     tickets[seat].hashID = buyer;
   }
   
 
   /* Setters */
-  function changeDate(uint64 newDate) public onTime() ownerOnly(){
+  function changeDate(uint64 newDate) public onTime() ownerOnly() {
     date = newDate;
   }
 
-  function changeName (string newName) public onTime() ownerOnly(){
+  function changeName (string newName) public onTime() ownerOnly() {
     name = newName;
   }
 
-  function changePlace (string newPlace) public onTime() ownerOnly(){
+  function changePlace (string newPlace) public onTime() ownerOnly() {
     place = newPlace;
   }
 
@@ -94,19 +95,20 @@ contract Event is OwnerOnly {
 contract EventPromoter is OwnerOnly {
   mapping (address => Event) public events;
 
-  function EventPromoter() public{
+  function EventPromoter() public {
     owner = msg.sender;
   }
 
   function createEvent (string name,  string place,  uint64 date,
                         uint32 nSeat, bool   resell, bool   delegate) 
-  public ownerOnly() returns (address){
+  public ownerOnly() returns (address)
+  {
     Event e = new Event(name, place, date, nSeat, resell, delegate);
     events[address(e)] = e;
     return address(e);
   }
 
-  function deleteEvent (address addr) public ownerOnly(){
+  function deleteEvent (address addr) public ownerOnly() {
     delete events[addr];
   }
 }
@@ -116,7 +118,7 @@ contract EventPromoter is OwnerOnly {
  * creating new EventPromoters. Is the first contract
  * deployed when the application is launched
  */
-contract Admin is OwnerOnly{
+contract Admin is OwnerOnly {
   mapping (address => EventPromoter) public promoters;
 
   function Admin() public {
