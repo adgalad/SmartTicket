@@ -9,21 +9,18 @@ routes.use(cors())
 routes.use(bodyParser.json())
 routes.use(bodyParser.urlencoded({ extended: true }))
 
-routes.get('/eventPromoter/new', (req, res, next) => {
-  contract.sendTx(contract.Admin.methods.createPromoter()).then(e => {
-    res.send(e)
-  })
-})
+/* Event */
+routes.route('/event')
+  .delete(contract.Event.delete)
+  .post(contract.Event.create)
+  .get(contract.Event.get)
 
-// Event
-routes.delete('/event/delete', contract.Event.delete)
-routes.post('/event/create', contract.Event.create)
+/* Event Promoter */
+routes.route('/eventPromoters')
+  .get(contract.EventPromoter.list)
 
 routes.route('/eventPromoter')
   .post(contract.EventPromoter.create)
-  .get(contract.EventPromoter.list)
-
-routes.route('/eventPromoter/get')
   .get(contract.EventPromoter.get)
 
 module.exports = routes

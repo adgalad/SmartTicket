@@ -43,12 +43,13 @@ const Event = {
     var promoterAddress = req.query.promoter
     var c = contracts.EventPromoter
     c.options.address = promoterAddress
-    var name = req.query.name
-    var place = req.query.place
-    var date = req.query.date
-    var nSeat = req.query.nseat
-    var resell = req.query.resell
-    var delegate = req.query.delegate
+
+    var name = req.body.name
+    var place = req.body.place
+    var date = parseInt(req.body.date)
+    var nSeat = parseInt(req.body.nseat)
+    var resell = req.body.resell
+    var delegate = req.body.delegate
 
     sendTx(c.methods.createEvent(name, place, date, nSeat, resell, delegate)).then(
       (e) => {
@@ -56,6 +57,18 @@ const Event = {
       }
     )
     console.log(req.body)
+  },
+  get: function (req, res) {
+    var eventAddress = req.query.address
+    var c = contracts.Event
+    c.options.address = eventAddress
+
+    callTx(c.methods.getInfo()).then(
+      e => {
+        console.log(e)
+        res.send(e)
+      }
+    )
   }
 }
 
