@@ -15,6 +15,10 @@ routes.route('/event')
   .post(contract.Event.create)
   .get(contract.Event.get)
 
+routes.route('/event/setDate').patch(contract.Event.setDate)
+routes.route('/event/setName').patch(contract.Event.setName)
+routes.route('/event/setPlace').patch(contract.Event.setPlace)
+
 /* Event Promoter */
 routes.route('/eventPromoters')
   .get(contract.EventPromoter.list)

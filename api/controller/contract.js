@@ -57,17 +57,72 @@ const Event = {
     console.log(req.body)
   },
   get: function (req, res) {
-    var eventAddress = req.query.address
-    var c = contracts.Event
-    c.options.address = eventAddress
+    var address = req.query.address
+    if (address === undefined) {
+      res.send({})
+    } else {
+      var c = contracts.Event
+      c.options.address = address
 
-    callTx(c.methods.getInfo()).then(
-      e => {
-        console.log(e)
-        res.send(e)
+      callTx(c.methods.getInfo()).then(
+        e => {
+          res.send(e)
+        }
+      )
+    }
+  },
+  setDate: function (req, res) {
+    var address = req.body.address
+    if (address === undefined) {
+      res.send('No event address.')
+    } else {
+      var c = contracts.Event
+      c.options.address = address
+      var date = req.body.date
+      if (date === undefined) {
+        res.send('No date to change.')
+      } else {
+        sendTx(c.methods.changeDate(date)).then(e => {
+          res.send(date)
+        })
       }
-    )
+    }
+  },
+  setName: function (req, res) {
+    var address = req.body.address
+    if (address === undefined) {
+      res.send('No event address.')
+    } else {
+      var c = contracts.Event
+      c.options.address = address
+      var name = req.body.name
+      if (name === undefined) {
+        res.send('No name to change.')
+      } else {
+        sendTx(c.methods.changeName(name)).then(e => {
+          res.send(name)
+        })
+      }
+    }
+  },
+  setPlace: function (req, res) {
+    var address = req.body.address
+    if (address === undefined) {
+      res.send('No event address.')
+    } else {
+      var c = contracts.Event
+      c.options.address = address
+      var place = req.body.place
+      if (place === undefined) {
+        res.send('No place to change.')
+      } else {
+        sendTx(c.methods.changePlace(place)).then(e => {
+          res.send(place)
+        })
+      }
+    }
   }
+
 }
 
 const EventPromoter = {
