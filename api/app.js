@@ -10,6 +10,7 @@ if (argv[2] === 'run') {
     contract.loadContract(accounts[0], 'Admin')
     contract.loadContract(accounts[0], 'Event')
     contract.loadContract(accounts[0], 'EventPromoter')
+    console.log(contract)
     routes.listen(3000)
   })
 } else if (argv[2] === 'migrate') {

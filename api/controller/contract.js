@@ -10,7 +10,6 @@ function loadContract (account, contractName) {
     json.address,
     {from: account, gas: '4700000'}
   )
-  console.log(json.address)
 }
 
 function sendTx (f) {
@@ -22,4 +21,35 @@ function sendTx (f) {
   })
 }
 
-module.exports = {loadContract, sendTx}
+const EventPromoter = {
+  create: function (req, res) {
+    var c = contracts.EventPromoter
+    var q = req.query
+
+    c.options.address = q.promoter
+
+    var name = q.name
+    var place = q.place
+    var date = q.date
+    var nSeat = q.nSeat
+    var resell = q.resell
+    var delegate = q.delegate
+
+    sendTx(c.methods.createEvent(name, place, date, nSeat, resell, delegate))
+        .then((e) => {
+          res.send(e)
+        })
+  },
+
+  list: function (req, res) {
+    console.log('Missing implementation')
+  },
+
+  get: function (req, res) {
+    console.log('Missing implementation')
+  }
+}
+
+module.exports.EventPromoter = EventPromoter
+module.exports.loadContract = loadContract
+module.exports.sendTx = sendTx
