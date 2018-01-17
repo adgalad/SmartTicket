@@ -219,6 +219,7 @@ const EventOperation = {
                         event: name,
                         zone: zone,
                         seat: seat,
+                        seatID: s.seatID,
                         price: price,
                         delegatedHash: delegatedHash
                       })
@@ -255,6 +256,7 @@ const EventOperation = {
     var oldOwner = req.body.owner
     var newOwner = req.body.newOwner
     var delegated = req.body.delegated
+    var newPrice = req.body.price
 
     if (!ticketID || !oldOwner || !newOwner) {
       return res.status(405).send({
@@ -267,9 +269,36 @@ const EventOperation = {
 
     DB.Ticket.findOne({_id: ticketID, hashID: oldOwner}, function (err, ticket) {
       if (err) return res.send(err)
-      if (ticket.idHash === oldOwner) {
-        DB.Ticket.update({_id: ticketID}, {idHash: newOwner, delegatedHash: delegated})
-      }
+      DB.Event.findOne({_id: ticket.event}, function (err, event) {
+        if (err) return res.send(err)
+        if (ticket.idHash === oldOwner) {
+          var ethBody = {
+            address: event.ethereumHash,
+            owner: oldOwner,
+            newOwner: newOwner,
+            delegate: delegated,
+            seat: ticket.seatID,
+            price: newPrice
+          }
+          request.post({
+            url: 'http://localhost:3001/event/resellTicket',
+            form: ethBody},
+          (err, resp, body) => {
+            if (err) res.status(400).send(err)
+            DB.Ticket.update({_id: ticketID},
+              {idHash: newOwner,
+                delegatedHash: delegated,
+                price: newPrice,
+                function (err, nAffected, rawResponse) {
+                  if (err) res.send(err)
+                  return res.status(200).send({
+                    success: true,
+                    message: 'Ticket updated.'})
+                }
+              })
+          })
+        }
+      })
     })
   },
 
@@ -315,10 +344,16 @@ const EventOperation = {
                   var s = seatmap[i].seats[j]
                   if (s.name === seat) {
                     if (s.status === 'Sold') {
-                      request.post(
-                        {url: 'http://localhost:3001/event/returnTicket',
-                          form: ethBody},
+                      var ethBody = {
+                        address: event.ethereumHash,
+                        seat: seatmap[i].seats[j].seatID,
+                        owner: owner
+                      }
+                      request.post({
+                        url: 'http://localhost:3001/event/returnTicket',
+                        form: ethBody},
                         (err, resp, body) => {
+                          if (err) return res.status(400).send(err)
                           event.seatMap[i].seats[j].status = 'Availible'
                           event.seatMap[i].seats[j].ticket = '0'
                           event.save(function (err, s) {

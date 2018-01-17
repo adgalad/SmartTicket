@@ -19,6 +19,10 @@ const TicketSchema = new Schema({
     type: String,
     required: 'A seat number is required'
   },
+  seatID: {
+    type: Number,
+    required: 'A seatID is required'
+  },
   price: {
     type: Number,
     required: 'An ID is required'

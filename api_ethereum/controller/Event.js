@@ -10,8 +10,8 @@ const Event = {
     var eventAddress = req.body.event
     var c = contracts.EventPromoter
     c.options.address = promoterAddress
-    sendTx(c.methods.deleteEvent(eventAddress)).then(
-      (e) => {
+    sendTx(c.methods.deleteEvent(eventAddress))
+      .then((e) => {
         res.send(e)
       }
     )
@@ -61,6 +61,31 @@ const Event = {
       })
     }
   },
+  // getTicket: function(req, res) {
+  //   var address = req.query.address
+  //   if (address === undefined) {
+  //     res.send({})
+  //   } else {
+  //     var c = contracts.Event
+  //     c.options.address = address
+
+  //     callTx(c.methods.getInfo()).then(e => {
+  //       callTx(c.methods.listTickets()).then(t => {
+  //         var r = {}
+  //         var i = 0
+  //         r['name'] = e[i++]
+  //         r['place'] = e[i++]
+  //         r['date'] = e[i++]
+  //         r['nSeat'] = e[i++]
+  //         r['canResell'] = e[i++]
+  //         r['canDelegate'] = e[i++]
+  //         r['canReturn'] = e[i++]
+  //         r['tickets'] = t
+  //         res.json(r)
+  //       })
+  //     })
+  //   }
+  // },
   setDate: function (req, res) {
     var address = req.body.address
     if (address === undefined) {
@@ -135,12 +160,6 @@ const EventOperation = {
     var seat = parseInt(req.body.seat)
     var price = parseInt(req.body.price)
     sendTx(c.methods.buyTicket(owner, seat, price, delegate)).then(e => {
-      // if (err) {
-      //   return res.status(405).send({
-      //     success: false,
-      //     message: 'Cannot resell ticket',
-      //     error: err})
-      // }
       res.status(202).send({
         success: true,
         message: 'Ticket sold'})
@@ -157,14 +176,7 @@ const EventOperation = {
 
     sendTx(c.methods.resellTicket(owner, newOwner, seat, price, delegate))
       .then(e => {
-      //   if (err) {
-      //     return res.status(405).send({
-      //       success: false,
-      //       message: 'Cannot resell ticket',
-      //       error: err})
-      //   }
-
-        res.status(202).send({
+        return res.status(202).send({
           success: true,
           message: 'Ticket resold'})
       })
@@ -176,12 +188,6 @@ const EventOperation = {
     var seat = parseInt(req.body.seat)
     var owner = web3.utils.fromAscii(req.body.owner)
     sendTx(c.methods.returnTicket(owner, seat)).then(e => {
-      // if (err) {
-      //   return res.status(405).send({
-      //     success: false,
-      //     message: 'Cannot return ticket',
-      //     error: err})
-      // }
       res.status(202).send({
         success: true,
         message: 'Ticket returned'})

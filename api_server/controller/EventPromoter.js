@@ -11,14 +11,14 @@ const EventPromoter = {
         form: { name: req.body.username }},
         (err, resp, body) => {
           if (err) res.send(err)
-          // try {
-          req.body.ethereumHash = JSON.parse(body).hash
-          // } catch (e) {
-          //   return res.status(405).send({
-          //     success: false,
-          //     message: 'ERROR: Invalid JSON from eth server. (EventPromoter/create)',
-          //     body: e })
-          // }
+          try {
+            req.body.ethereumHash = JSON.parse(body).hash
+          } catch (e) {
+            return res.status(405).send({
+              success: false,
+              message: 'ERROR: Invalid JSON from eth server. (EventPromoter/create)',
+              body: e })
+          }
           console.log(body)
           var newPromoter = new DB.EventPromoter(req.body)
           newPromoter.save(function (err, event) {
