@@ -7,7 +7,7 @@ function migrate (account, contractName) {
   shell.exec('rm -rf build/; truffle compile')
   // Deploy contracts
   const fileName = 'build/contracts/' + contractName + '.json'
-  const json = require('../../' + fileName)
+  const json = require('../' + fileName)
   var contract = new web3.eth.Contract(json.abi, {from: account, gas: '4700000'})
 
   console.log('Migrating contract for', contractName)

@@ -12,57 +12,87 @@ contract OwnerOnly {
   }
 }
 
+contract Ticket {
+  bytes32 public hashID;
+  bytes32 public hashDelegate;
+  uint32  public price;
+
+  function Ticket(bytes32 _hashID, bytes32 _hashDelegate, uint32 _price) public{
+    hashID = _hashID;
+    hashDelegate = _hashDelegate;
+    price = _price;
+  }
+}
+
 contract Event is OwnerOnly {
 
-  struct Ticket {
-    bytes32 hashID;
-    bytes32 hashDelegate;
-  }
-
-  mapping (uint32 => Ticket) public tickets;
+  Ticket[] public tickets;
   uint32 public nSeat;
   uint64 public date;
   string public name;
   string public place;
   
   // Options
-  bool public resell;
-  bool public delegate;
+  bool public _canResell;
+  bool public _canDelegate;
+  bool public _canReturn;
 
   /* Constructor */
   function Event (string _name,  string _place,  uint64 _date,
-                  uint32 _nSeat, bool   _resell, bool   _delegate) 
+                  uint32 _nSeat, bool   _resell, bool   _delegate, 
+                  bool   _return) 
   public
   {
     name     = _name;
     place    = _place;
     date     = _date;
     nSeat    = _nSeat;
-    resell   = _resell;
-    delegate = _delegate;
+    _canResell   = _resell;
+    _canDelegate = _delegate;
+    _canReturn = _return;
     owner    = tx.origin;
+    for (uint i = 0; i < nSeat; i++){
+      tickets.push(new Ticket(0,0,0));
+    }
   }    
 
   /* Operations */ 
-  function buyTicket(bytes32 buyer, uint32 seat, bytes32 delegated) 
-  public canDelegate(delegated) onTime() ownerOnly() {
+  function buyTicket(bytes32 buyer, uint32 seat, uint32 price, bytes32 delegated) 
+  public canDelegate(delegated) onTime() ownerOnly() 
+  {
     require(tickets[seat].hashID == 0);
-    Ticket memory t;
+    Ticket t;
     t.hashID       = buyer; 
     t.hashDelegate = delegated;
+    t.price        = price;
     tickets[seat]  = t;
   }
 
-  function resellTicket(bytes32 buyer, uint32 seat, bytes32 delegated) 
-  public canResell() canDelegate(delegated) onTime() ownerOnly() {
+  function resellTicket(bytes32 ticketOwner, bytes32 buyer, uint32 seat,
+                        uint32  price, bytes32 delegated) 
+  public canResell() canDelegate(delegated) onTime() ownerOnly() 
+  {
+    require(tickets[seat].hashID == ticketOwner);
     require(tickets[seat].hashID != 0 && tickets[seat].hashID != buyer);
     tickets[seat].hashID = buyer;
+    tickets[seat].price  = price;
     tickets[seat].hashDelegate = delegated;
   }
 
+  function returnTicket(bytes32 ticketOwner, uint32 seat)
+  public canReturn() onTime() ownerOnly()
+  {
+    require(tickets[seat].hashID == ticketOwner);
+    delete(tickets[seat]);
+  }
+
   /* Only Read */
-  function getInfo() public view returns(string, string, uint64, uint32, bool, bool) {
-    return (name, place, date, nSeat, resell, delegate);
+  function getInfo() public view returns(string, string, uint64, uint32, bool, bool, bool) {
+    return (name, place, date, nSeat, _canResell, _canDelegate, _canReturn);
+  }
+
+  function listTickets() public view returns(Ticket[]){
+    return tickets;
   }
 
   /* Setters */
@@ -81,12 +111,17 @@ contract Event is OwnerOnly {
 
   /* Modifiers */
   modifier canDelegate(bytes32 delegated) {
-    require( (delegated == 0) != delegate);
+    require( (delegated == 0) != _canDelegate);
     _;
   }
 
   modifier canResell(){
-    require(resell);
+    require(_canResell);
+    _;
+  }
+
+  modifier canReturn(){
+    require(_canReturn);
     _;
   }
 
@@ -108,9 +143,10 @@ contract EventPromoter is OwnerOnly {
   }
 
   function createEvent (string _name,  string place,  uint64 date,
-                        uint32 nSeat, bool   resell, bool   delegate) 
+                        uint32 nSeat, bool   resell, bool   delegate,
+                        bool canReturn) 
   public ownerOnly() returns (address){
-    Event e = new Event(_name, place, date, nSeat, resell, delegate);
+    Event e = new Event(_name, place, date, nSeat, resell, delegate, canReturn);
     events[address(e)] = e;
     _events.push(e);
     return address(e);
