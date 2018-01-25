@@ -8,7 +8,7 @@ const EventPromoter = {
   create: function (req, res) {
     request.post(
       {url: 'http://localhost:3001/eventPromoter',
-        form: { name: req.body.username }},
+        form: { name: req.body.email }},
         (err, resp, body) => {
           if (err) res.send(err)
           try {
@@ -43,7 +43,7 @@ const EventPromoter = {
   },
 
   get: function (req, res) {
-    if (!req.query.username && !req.query._id) {
+    if (!req.query.email && !req.query._id) {
       res.status(405).send({
         success: false,
         message: 'Method Not Allowed. No parameters found.'})
@@ -51,7 +51,7 @@ const EventPromoter = {
     }
     // lets verificate that the the user is the same as the requested promoter
     if (req.decoded.admin === false &&
-        ((req.query.username && req.decoded.username !== req.query.username) ||
+        ((req.query.email && req.decoded.email !== req.query.email) ||
          (req.query.id && req.decoded.id !== req.query.id))) {
       res.status(403).send({
         success: false,
@@ -66,7 +66,7 @@ const EventPromoter = {
   },
 
   delete: function (req, res) {
-    if (req.body.username === undefined && req.body._id === undefined) {
+    if (req.body.email === undefined && req.body._id === undefined) {
       res.status(405).send({
         success: false,
         message: 'Method Not Allowed. No parameters found.'})
@@ -91,14 +91,14 @@ const EventPromoter = {
   },
 
   authenticate: function (req, res) {
-    if (!req.body.username) {
+    if (!req.body.email) {
       res.status(405).send({
         success: false,
-        message: 'No username'
+        message: 'No email'
       })
       return
     }
-    DB.EventPromoter.findOne({username: req.body.username}, function (err, promoter) {
+    DB.EventPromoter.findOne({email: req.body.email}, function (err, promoter) {
       if (err) res.send(err)
       else if (!promoter) {
         res.status(404).send({
@@ -118,12 +118,12 @@ const EventPromoter = {
           // we don't want to pass in the entire promoter since that has the password
           const payload = {
             admin: promoter.admin,
-            username: promoter.username,
+            email: promoter.email,
             id: promoter.id,
             hash: promoter.ethereumHash
           }
           var token = jwt.sign(payload, app.get('superSecret'), {
-            expiresIn: 3600 * 24 // expires in 24 hours
+            expiresIn: 3600 * 24 * 2 // expires in 48 hours
           })
 
           // return the information including token as JSON

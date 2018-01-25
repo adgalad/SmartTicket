@@ -102,7 +102,7 @@ contract Event is OwnerOnly {
 
   /* Modifiers */
   modifier canDelegate(bytes32 delegated) {
-    require(!_canDelegate || delegated == 0);
+    require(_canDelegate || delegated == 0);
     _;
   }
 
@@ -175,7 +175,6 @@ contract Admin is OwnerOnly {
   function listPromoters()public view returns(EventPromoter[]){
     return _promoters;
   }
-
 }
 
 

@@ -1,9 +1,10 @@
 const DB = require('../model/Event')
+DB.EventPromoter = require('../model/EventPromoter').EventPromoter
 const request = require('request')
 
 const Event = {
   show: function (req, res) {
-    DB.Event.find({}, function (err, events) {
+    DB.Event.find({owner: req.decoded.id}, function (err, events) {
       if (err) { res.send(err) }
       res.json(events)
     })
@@ -86,7 +87,7 @@ const Event = {
         form: ethBody},
       (err, resp, body) => {
         console.log('hola')
-        if (err) return res.send(err)
+        if (err) return res.status(500).send(err)
 
         try {
           b.ethereumHash = JSON.parse(body).hash
@@ -96,12 +97,19 @@ const Event = {
             message: 'ERROR: Invalid JSON from eth server. (Event/create)',
             body: e})
         }
-
         var newEvent = new DB.Event(b)
-        // console.log(req.body.seatmap)
-        newEvent.save(function (err, task) {
-          if (err) { res.send(err) }
-          res.send(task)
+        newEvent.save(function (err, event) {
+          if (err) { return res.status(500).send(err) }
+          if (!event) { return res.status(500).json({ success: false, message: "Couldn't save event" }) }
+          DB.EventPromoter.findOne({_id: req.decoded.id}, function (err, promoter) {
+            if (err) { return res.status(500).send(err) }
+            promoter.events.push(event._id)
+            promoter.save((e) => {
+              return res.status(202).json({
+                success: true,
+                message: event })
+            })
+          })
         })
       })
     /// /////  crear contrato

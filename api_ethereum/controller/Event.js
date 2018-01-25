@@ -45,19 +45,16 @@ const Event = {
       c.options.address = address
 
       callTx(c.methods.getInfo()).then(e => {
-        callTx(c.methods.listTickets()).then(t => {
-          var r = {}
-          var i = 0
-          r['name'] = e[i++]
-          r['place'] = e[i++]
-          r['date'] = e[i++]
-          r['nSeat'] = e[i++]
-          r['canResell'] = e[i++]
-          r['canDelegate'] = e[i++]
-          r['canReturn'] = e[i++]
-          r['tickets'] = t
-          res.json(r)
-        })
+        var r = {}
+        var i = 0
+        r['name'] = e[i++]
+        r['place'] = e[i++]
+        r['date'] = e[i++]
+        r['nSeat'] = e[i++]
+        r['canResell'] = e[i++]
+        r['canDelegate'] = e[i++]
+        r['canReturn'] = e[i++]
+        res.json(r)
       })
     }
   },
@@ -159,11 +156,13 @@ const EventOperation = {
     var delegate = web3.utils.fromAscii(req.body.delegate)
     var seat = parseInt(req.body.seat)
     var price = parseInt(req.body.price)
-    sendTx(c.methods.buyTicket(owner, seat, price, delegate)).then(e => {
-      res.status(202).send({
-        success: true,
-        message: 'Ticket sold'})
-    })
+    sendTx(c.methods.buyTicket(owner, seat, price, delegate))
+      .then(e => {
+        if (e.success !== undefined && !e.success) { return res.status(405).send(e) }
+        res.status(202).send({
+          success: true,
+          message: 'Ticket sold'})
+      })
   },
   resellTicket: function (req, res) {
     var c = contracts.Event

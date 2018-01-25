@@ -36,7 +36,7 @@ const authMiddleware = function (req, res, next, modifier) {
         // if everything is good, save to request for use in other routes
         req.decoded = decoded
         DB.EventPromoter.findOne(
-          {_id: decoded.id, username: decoded.username},
+          {_id: decoded.id, email: decoded.email},
           function (err, p) {
             if (err) return res.send(err)
             if (p === undefined) {

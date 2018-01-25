@@ -3,10 +3,10 @@ const mongoose = require('./mongo')
 var Schema = mongoose.Schema
 
 var EventPromoterScheme = new Schema({
-  username: {
+  email: {
     type: String,
     unique: true,
-    required: 'An username is required'
+    required: 'An email is required'
   },
   password: {
     type: String,

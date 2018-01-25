@@ -82,7 +82,7 @@ const EventSchema = new Schema({
     required: 'A event owner is required'
   },
   date: {
-    type: Date,
+    type: Number,
     required: 'A date is required'
   },
   creationDate: {

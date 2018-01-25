@@ -5,8 +5,6 @@ const callTx = contract.callTx
 
 const EventPromoter = {
   create: function (req, res) {
-    console.log(req.body)
-    console.log(contracts.Admin)
     sendTx(contracts.Admin.methods.createPromoter(req.body.name))
       .then(e => {
         if (!e) {
@@ -14,21 +12,18 @@ const EventPromoter = {
             success: false,
             message: "Couldn't create the promoter"})
         }
+        console.log(e)
         res.json({hash: e})
-      }
-    )
+      })
   },
 
   list: function (req, res) {
     var c = contracts.Admin
-    console.log('hola')
     callTx(c.methods.listPromoters()).then(e => {
       var r = {}
-      console.log('hola1')
       var getName = function (i, contract) {
         return callTx(contract.methods.name()).then(function (name) {
           r[e[i]] = name.replace(/['"]+/g, '')
-          console.log(Object.keys(r).length, e.length)
           if (Object.keys(r).length === e.length) {
             res.json(r)
           }
