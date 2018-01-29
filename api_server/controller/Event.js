@@ -26,7 +26,7 @@ const Event = {
       }
       event.remove(function (err, _event) {
         if (err) { return res.send(err) }
-        res.send(_event)
+        res.status(202).send(_event)
       })
     })
   },
@@ -133,7 +133,9 @@ const Event = {
           success: false,
           message: 'Forbidden. You are not the event owner.'})
       }
-      return res.json(event)
+      return res.status(202).json({
+        success: true,
+        message: event })
     })
   },
 
@@ -151,7 +153,7 @@ const Event = {
           if (err) {
             return res.send(err)
           }
-          return res.json({Changes: nAffected, Response: rawResponse})
+          return res.status(200).json({success: false, Changes: nAffected, Response: rawResponse})
         })
       } else {
         return res.status(403).send({

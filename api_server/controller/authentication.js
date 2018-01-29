@@ -31,14 +31,14 @@ const authMiddleware = function (req, res, next, modifier) {
     // verifies secret and checks exp
     jwt.verify(token, app.get('superSecret'), function (err, decoded) {
       if (err) {
-        return res.json({ status: '', message: 'Failed to authenticate token.' })
+        return res.status(405).json({ success: false, message: 'Failed to authenticate token.' })
       } else {
         // if everything is good, save to request for use in other routes
         req.decoded = decoded
         DB.EventPromoter.findOne(
           {_id: decoded.id, email: decoded.email},
           function (err, p) {
-            if (err) return res.send(err)
+            if (err) return res.status(500).send(err)
             if (p === undefined) {
               return res.status(403).send({
                 success: false,
