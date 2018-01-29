@@ -43,25 +43,29 @@ const EventPromoter = {
   },
 
   get: function (req, res) {
-    if (!req.query.email && !req.query._id) {
-      res.status(405).send({
-        success: false,
-        message: 'Method Not Allowed. No parameters found.'})
-      return
-    }
+    // if (!req.query.email && !req.query._id) {
+    //   res.status(405).send({
+    //     success: false,
+    //     message: 'Method Not Allowed. No parameters found.'})
+    //   return
+    // }
     // lets verificate that the the user is the same as the requested promoter
-    if (req.decoded.admin === false &&
-        ((req.query.email && req.decoded.email !== req.query.email) ||
-         (req.query.id && req.decoded.id !== req.query.id))) {
-      res.status(403).send({
-        success: false,
-        message: 'Forbidden'})
-      return
+    // if (req.decoded.admin === false &&
+    //     ((req.query.email && req.decoded.email !== req.query.email) ||
+    //      (req.query.id && req.decoded.id !== req.query.id))) {
+    //   res.status(403).send({
+    //     success: false,
+    //     message: 'Forbidden'})
+    //   return
+    // }
+    const query = {
+      _id: req.decoded.id,
+      email: req.decoded.email
     }
-
-    DB.EventPromoter.findOne(req.query, function (err, promoter) {
-      if (err) res.send(err)
-      else res.json(promoter)
+    console.log(query)
+    DB.EventPromoter.findOne(query, function (err, promoter) {
+      if (err) res.status(500).send(err)
+      else res.status(202).json(promoter)
     })
   },
 
@@ -91,6 +95,7 @@ const EventPromoter = {
   },
 
   authenticate: function (req, res) {
+    console.log(req.body)
     if (!req.body.email) {
       res.status(405).send({
         success: false,
