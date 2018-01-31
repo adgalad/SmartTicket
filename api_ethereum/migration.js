@@ -12,10 +12,10 @@ function migrate (account, contractName) {
 
   console.log('Migrating contract for', contractName)
 
-  contract.deploy({data: json.bytecode}).send({from: account, gas: '4700000'}).then(e => {
+  return contract.deploy({data: json.bytecode}).send({from: account, gas: '4700000'}).then(e => {
     contract.options.address = e._address
     json['address'] = e._address
-    fs.writeFile(fileName, JSON.stringify(json), 'utf8', e => {
+    return fs.writeFile(fileName, JSON.stringify(json), 'utf8', e => {
       if (e) console.log(e)
       else console.log('Saving', fileName)
     })

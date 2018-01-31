@@ -97,6 +97,7 @@ const Event = {
             message: 'ERROR: Invalid JSON from eth server. (Event/create)',
             body: e})
         }
+        console.log(b)
         var newEvent = new DB.Event(b)
         newEvent.save(function (err, event) {
           if (err) { return res.status(500).send(err) }
