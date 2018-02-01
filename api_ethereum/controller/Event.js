@@ -69,8 +69,9 @@ const Event = {
       c.options.address = address
 
       callTx(c.methods.tickets(seat)).then(e => {
+        console.log(e)
         res.status(202).json({
-          success: false,
+          success: true,
           message: e
         })
       })
@@ -157,7 +158,7 @@ const EventOperation = {
         if (e.success !== undefined && !e.success) { return res.status(405).send(e) }
         res.status(202).send({
           success: true,
-          message: 'Ticket sold'})
+          message: e})
       })
   },
   resellTicket: function (req, res) {
