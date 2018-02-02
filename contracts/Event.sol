@@ -17,7 +17,7 @@ contract Event is OwnerOnly {
   struct Ticket{
     bytes32 hashID;
     bytes32 hashDelegate;
-    uint32  price;  
+    uint32  price;
   }
 
   mapping (uint32 => Ticket) public tickets;
@@ -117,7 +117,7 @@ contract Event is OwnerOnly {
   }
 
   modifier onTime(){
-    require(date < now);
+    // require(date < now); // Verifica que la fecha actual y la fecha del evento tengan sentido
     _;
   }
 

@@ -10,9 +10,10 @@ app.route('/event')
   .post(auth.promoter, Event.create)
   .get(auth.promoter, Event.get)
 
+app.post('/event/ticket', Event.getTicket)
 // app.patch('/event/setDate', Event.setDate)
 // app.patch('/event/setName', Event.setName)
-// app.patch('/event/setPlace', Event.setPlace)
+
 app.post('/event/buyTicket', auth.promoter, EventOperation.buyTicket)
 app.post('/event/resellTicket', auth.promoter, EventOperation.resellTicket)
 app.post('/event/returnTicket', auth.promoter, EventOperation.returnTicket)

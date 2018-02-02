@@ -12,7 +12,7 @@ const Event = {
     c.options.address = promoterAddress
     sendTx(c.methods.deleteEvent(eventAddress))
       .then((e) => {
-        res.send(e)
+        res.status(202).send(e)
       }
     )
   },
@@ -31,7 +31,7 @@ const Event = {
 
     sendTx(c.methods.createEvent(name, place, date, nSeat, resell, delegate, canReturn)).then(
       (e) => {
-        res.json({hash: e})
+        res.status(202).json({hash: e})
       }
     )
   },
@@ -39,7 +39,7 @@ const Event = {
   get: function (req, res) {
     var address = req.query.address
     if (address === undefined) {
-      res.send({})
+      res.status(400).send({})
     } else {
       var c = contracts.Event
       c.options.address = address
@@ -54,35 +54,29 @@ const Event = {
         r['canResell'] = e[i++]
         r['canDelegate'] = e[i++]
         r['canReturn'] = e[i++]
-        res.json(r)
+        res.status(202).json(r)
       })
     }
   },
-  // getTicket: function(req, res) {
-  //   var address = req.query.address
-  //   if (address === undefined) {
-  //     res.send({})
-  //   } else {
-  //     var c = contracts.Event
-  //     c.options.address = address
 
-  //     callTx(c.methods.getInfo()).then(e => {
-  //       callTx(c.methods.listTickets()).then(t => {
-  //         var r = {}
-  //         var i = 0
-  //         r['name'] = e[i++]
-  //         r['place'] = e[i++]
-  //         r['date'] = e[i++]
-  //         r['nSeat'] = e[i++]
-  //         r['canResell'] = e[i++]
-  //         r['canDelegate'] = e[i++]
-  //         r['canReturn'] = e[i++]
-  //         r['tickets'] = t
-  //         res.json(r)
-  //       })
-  //     })
-  //   }
-  // },
+  getTicket: function (req, res) {
+    var address = req.body.address
+    var seat = req.body.seat
+    if (address === undefined || seat === undefined) {
+      res.send({})
+    } else {
+      var c = contracts.Event
+      c.options.address = address
+
+      callTx(c.methods.tickets(seat)).then(e => {
+        res.status(202).json({
+          success: false,
+          message: e
+        })
+      })
+    }
+  },
+
   setDate: function (req, res) {
     var address = req.body.address
     if (address === undefined) {
@@ -104,6 +98,7 @@ const Event = {
       }
     }
   },
+
   setName: function (req, res) {
     var address = req.body.address
     if (address === undefined) {
@@ -120,11 +115,12 @@ const Event = {
           message: 'A new name is required'})
       } else {
         sendTx(c.methods.changeName(name)).then(e => {
-          res.send(name)
+          res.status(202).send(name)
         })
       }
     }
   },
+
   setPlace: function (req, res) {
     var address = req.body.address
     if (address === undefined) {

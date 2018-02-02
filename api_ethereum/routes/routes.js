@@ -19,9 +19,12 @@ routes.route('/event')
   .post(Event.create)
   .get(Event.get)
 
+routes.post('/event/ticket', Event.getTicket)
+
 routes.patch('/event/setDate', Event.setDate)
 routes.patch('/event/setName', Event.setName)
 routes.patch('/event/setPlace', Event.setPlace)
+
 routes.post('/event/buyTicket', EventOperation.buyTicket)
 routes.post('/event/resellTicket', EventOperation.resellTicket)
 routes.post('/event/returnTicket', EventOperation.returnTicket)

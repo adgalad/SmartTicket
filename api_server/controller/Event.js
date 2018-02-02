@@ -86,7 +86,6 @@ const Event = {
       {url: 'http://localhost:3001/event',
         form: ethBody},
       (err, resp, body) => {
-        console.log('hola')
         if (err) return res.status(500).send(err)
 
         try {
@@ -137,6 +136,35 @@ const Event = {
       return res.status(202).json({
         success: true,
         message: event })
+    })
+  },
+
+  getTicket: function (req, res) {
+    var id = req.body.event
+    var seat = req.body.seat
+
+    if (!id || seat === undefined) {
+      return res.status(405).send({
+        success: false,
+        message: 'Cannot get ticket. No arguments found.'})
+    }
+    DB.Event.findOne({_id: id}, function (err, event) {
+      if (err) {
+        return res.send(err)
+      }
+      request.post({
+        url: 'http://localhost:3001/event/ticket',
+        form: {address: event.ethereumHash, seat: seat}},
+      (err, resp, body) => {
+        if (err) {
+          return res.status(500).send(err)
+        }
+
+        return res.status(202).json({
+          success: true,
+          message: JSON.parse(body)
+        })
+      })
     })
   },
 
@@ -218,7 +246,7 @@ const EventOperation = {
                       form: ethBody},
                     (err, resp, body) => {
                       console.log('entro2')
-                      if (err) return res.send(err)
+                      if (err) return res.status(500).send(err)
                       if (resp.statusCode >= 400) {
                         return res.status(405).send({
                           success: false,
@@ -236,12 +264,14 @@ const EventOperation = {
                       })
                       console.log('entro4')
                       ticket.save(function (err, t) {
-                        if (err) { return res.send(err) }
+                        if (err) { return res.status(500).send(err) }
                         event.seatMap[i].seats[j].status = 'Sold'
                         event.seatMap[i].seats[j].ticket = t._id
                         event.save(function (err, s) {
                           if (err) { return console.log(err) }
-                          return res.send(t)
+                          return res.json({
+                            success: true,
+                            message: t})
                         })
                       })
                     })

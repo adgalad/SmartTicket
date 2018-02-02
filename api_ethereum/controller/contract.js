@@ -26,6 +26,20 @@ function sendTx (f) {
   })
 }
 
+function sendTxAndGetInfo (f) {
+  return web3.eth.getAccounts().then(accounts => {
+    const sender = {from: accounts[0], gas: '4700000'}
+    var x = f.call()
+    return f.send(sender)
+      .then(function (e) {
+        return {result: x, info: e}
+      })
+      .catch(function (error) {
+        return {success: false, message: error.message}
+      })
+  })
+}
+
 function callTx (f) {
   return f.call()
 }
@@ -33,4 +47,5 @@ function callTx (f) {
 module.exports.loadContract = loadContract
 module.exports.contracts = contracts
 module.exports.sendTx = sendTx
+module.exports.sendTxAndGetInfo = sendTxAndGetInfo
 module.exports.callTx = callTx
