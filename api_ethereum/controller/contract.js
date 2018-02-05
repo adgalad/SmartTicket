@@ -12,7 +12,7 @@ function loadContract (account, contractName) {
   )
 }
 
-function sendTx1 (f) {
+function sendTx (f) {
   return web3.eth.getAccounts().then(accounts => {
     const sender = {from: accounts[0], gas: '4700000'}
     var x = f.call()
@@ -26,24 +26,19 @@ function sendTx1 (f) {
   })
 }
 
-function sendTx (f) {
+function sendTxAndGetInfo (f) {
   return web3.eth.getAccounts().then(accounts => {
     const sender = {from: accounts[0], gas: '4700000'}
     var x = f.call()
     return f.send(sender)
-      .on('transactionHash', function (txHash) {
-        const message = x
-        message.tx = txHash
-        return {success: true, message: message}
+      .then(function (e) {
+        return {promise: x, tx: e}
       })
-      .on('error', function(error){
+      .catch(function (error) {
         return {success: false, message: error.message}
       })
-      
-      
   })
 }
-
 function callTx (f) {
   return f.call()
 }
@@ -51,5 +46,5 @@ function callTx (f) {
 module.exports.loadContract = loadContract
 module.exports.contracts = contracts
 module.exports.sendTx = sendTx
-// module.exports.sendTxAndGetInfo = sendTxAndGetInfo
+module.exports.sendTxAndGetInfo = sendTxAndGetInfo
 module.exports.callTx = callTx

@@ -2,6 +2,7 @@ const web3 = require('../web3')
 const contract = require('./contract')
 const contracts = contract.contracts
 const sendTx = contract.sendTx
+const sendTxAndGetInfo = contract.sendTxAndGetInfo
 const callTx = contract.callTx
 
 const Event = {
@@ -159,7 +160,19 @@ const EventOperation = {
         res.status(202).send({
           success: true,
           message: e})
-      })
+    })
+
+    // sendTxAndGetInfo(c.methods.buyTicket(owner, seat, price, delegate))
+    //   .then(e => {
+    //     if (e === undefined) return res.status(500).send(e)
+    //     e.promise.then(r => {
+    //       if (r.success !== undefined && !r.success) { return res.status(405).send(r) }
+    //       res.status(202).send({
+    //         success: true,
+    //         message: r,
+    //         tx: e.tx})
+    //   })
+    // })
   },
   resellTicket: function (req, res) {
     var c = contracts.Event
