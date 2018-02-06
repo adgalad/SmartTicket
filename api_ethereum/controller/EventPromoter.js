@@ -1,20 +1,22 @@
 const contract = require('./contract')
 const contracts = contract.contracts
-const sendTx = contract.sendTx
 const callTx = contract.callTx
+const sendTxAndGetInfo = contract.sendTxAndGetInfo
 
 const EventPromoter = {
   create: function (req, res) {
-    sendTx(contracts.Admin.methods.createPromoter(req.body.name))
-      .then(e => {
-        if (!e) {
-          return res.status(405).send({
-            success: false,
-            message: "Couldn't create the promoter"})
-        }
-        console.log(e)
-        res.json({hash: e})
+    sendTxAndGetInfo(contracts.Admin.methods.createPromoter(req.body.name))
+    .then(e => {
+      if (!e) {
+        return res.status(405).send({
+          success: false,
+          message: "Couldn't create the promoter"})
+      }
+
+      e.promise.then(hash => {
+        res.json({message: true, hash: hash, tx: e.tx})
       })
+    })
   },
 
   list: function (req, res) {

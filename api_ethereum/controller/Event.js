@@ -3,6 +3,7 @@ const contract = require('./contract')
 const contracts = contract.contracts
 const sendTx = contract.sendTx
 const callTx = contract.callTx
+const sendTxAndGetInfo = contract.sendTxAndGetInfo
 
 const Event = {
   delete: function (req, res) {
@@ -29,9 +30,17 @@ const Event = {
     var delegate = req.body.delegate
     var canReturn = req.body.canReturn
 
-    sendTx(c.methods.createEvent(name, place, date, nSeat, resell, delegate, canReturn)).then(
+    sendTxAndGetInfo(c.methods.createEvent(name, place, date, nSeat, resell, delegate, canReturn)).then(
       (e) => {
-        res.status(202).json({hash: e})
+        if (!e) {
+          return res.status(405).send({
+            success: false,
+            message: "Couldn't create the promoter"})
+        }
+
+        e.promise.then(hash => {
+          res.status(202).json({message: true, hash: hash, tx: e.tx})
+        })
       }
     )
   },
