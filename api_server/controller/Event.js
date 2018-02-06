@@ -271,7 +271,8 @@ const EventOperation = {
                           if (err) { return console.log(err) }
                           return res.json({
                             success: true,
-                            message: t})
+                            message: t,
+                            tx: JSON.parse(body).tx.transactionHash})
                         })
                       })
                     })

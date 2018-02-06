@@ -29,10 +29,10 @@ function sendTx (f) {
 function sendTxAndGetInfo (f) {
   return web3.eth.getAccounts().then(accounts => {
     const sender = {from: accounts[0], gas: '4700000'}
-    var x = f.call()
+    var res = f.call()
     return f.send(sender)
       .then(function (e) {
-        return {promise: x, tx: e}
+        return { promise: res, tx: e }
       })
       .catch(function (error) {
         return {success: false, message: error.message}

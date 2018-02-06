@@ -30,9 +30,17 @@ const Event = {
     var delegate = req.body.delegate
     var canReturn = req.body.canReturn
 
-    sendTx(c.methods.createEvent(name, place, date, nSeat, resell, delegate, canReturn)).then(
+    sendTxAndGetInfo(c.methods.createEvent(name, place, date, nSeat, resell, delegate, canReturn)).then(
       (e) => {
-        res.status(202).json({hash: e})
+        if (!e) {
+          return res.status(405).send({
+            success: false,
+            message: "Couldn't create the promoter"})
+        }
+
+        e.promise.then(hash => {
+          res.status(202).json({message: true, hash: hash, tx: e.tx})
+        })
       }
     )
   },
@@ -154,25 +162,26 @@ const EventOperation = {
     var delegate = web3.utils.fromAscii(req.body.delegate)
     var seat = parseInt(req.body.seat)
     var price = parseInt(req.body.price)
-    sendTx(c.methods.buyTicket(owner, seat, price, delegate))
+    sendTx()
       .then(e => {
         if (e.success !== undefined && !e.success) { return res.status(405).send(e) }
         res.status(202).send({
           success: true,
           message: e})
     })
+    sendTxAndGetInfo(c.methods.buyTicket(owner, seat, price, delegate)).then(
+      (e) => {
+        if (!e) {
+          return res.status(405).send({
+            success: false,
+            message: "Couldn't create the promoter"})
+        }
 
-    // sendTxAndGetInfo(c.methods.buyTicket(owner, seat, price, delegate))
-    //   .then(e => {
-    //     if (e === undefined) return res.status(500).send(e)
-    //     e.promise.then(r => {
-    //       if (r.success !== undefined && !r.success) { return res.status(405).send(r) }
-    //       res.status(202).send({
-    //         success: true,
-    //         message: r,
-    //         tx: e.tx})
-    //   })
-    // })
+        e.promise.then(info => {
+          res.status(202).json({message: true, message: info, tx: e.tx})
+        })
+      }
+    )
   },
   resellTicket: function (req, res) {
     var c = contracts.Event
