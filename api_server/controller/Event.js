@@ -347,14 +347,14 @@ const EventOperation = {
   returnTicket: function (req, res) {
     var ticketID = req.body.ticket
     var owner = req.body.owner
-
+    console.log(req.body)
     if (!ticketID || !owner) {
       return res.status(405).send({
         success: false,
         message: 'Method Not Allowed. Invalid arguments.'})
     }
 
-    DB.Ticket.findOne({_id: ticketID, idHash: owner}, (err, ticket) => {
+    DB.Ticket.findOne({_id: ticketID}, (err, ticket) => {
       if (err) return res.send(err)
       if (!ticket) {
         return res.status(404).send({
