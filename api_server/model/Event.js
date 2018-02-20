@@ -29,7 +29,11 @@ const TicketSchema = new Schema({
   },
   delegatedHash: {
     type: String,
-    default: ''
+    default: '0x0'
+  },
+  ethereumHash: {
+    type: String,
+    default: '0x0'
   }
 })
 
@@ -50,10 +54,6 @@ const SeatSchema = new Schema({
   price: {
     type: Number,
     required: 'A price is required'
-  },
-  ticket: {
-    type: String,
-    default: null
   }
 })
 

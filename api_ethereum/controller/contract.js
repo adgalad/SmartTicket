@@ -15,6 +15,7 @@ function loadContract (account, contractName) {
 function sendTx (f) {
   return web3.eth.getAccounts().then(accounts => {
     const sender = {from: accounts[0], gas: '4700000'}
+    console.log(f)
     var x = f.call()
     return f.send(sender)
       .then(function (e) {
@@ -30,9 +31,13 @@ function sendTxAndGetInfo (f) {
   return web3.eth.getAccounts().then(accounts => {
     const sender = {from: accounts[0], gas: '4700000'}
     var res = f.call()
+    if (!res) {
+      return undefined
+    }
+
     return f.send(sender)
       .then(function (e) {
-        return { promise: res, tx: e }
+        return { sucess: true, promise: res, tx: e }
       })
       .catch(function (error) {
         return {success: false, message: error.message}

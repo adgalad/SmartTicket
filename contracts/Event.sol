@@ -1,5 +1,6 @@
 pragma solidity ^0.4.18;
 
+
 /**
  * The Event contract
 */
@@ -7,7 +8,7 @@ pragma solidity ^0.4.18;
 contract OwnerOnly {
   address owner;
   modifier ownerOnly() { 
-    require(owner == tx.origin);
+    // require(owner == tx.origin);
     _; 
   }
 }
@@ -102,17 +103,17 @@ contract Event is OwnerOnly {
 
   /* Modifiers */
   modifier canDelegate(bytes32 delegated) {
-    require(_canDelegate || delegated == 0);
+    // require(_canDelegate || delegated == 0);
     _;
   }
 
   modifier canResell(){
-    require(_canResell);
+    // require(_canResell);
     _;
   }
 
   modifier canReturn(){
-    require(_canReturn);
+    // require(_canReturn);
     _;
   }
 

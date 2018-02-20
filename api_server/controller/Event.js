@@ -42,6 +42,7 @@ const Event = {
         body: req.body})
     }
     var json = {}
+    console.log(b)
     try {
       json = JSON.parse(b.seatmap)
     } catch (e) {
@@ -103,6 +104,7 @@ const Event = {
           if (!event) { return res.status(500).json({ success: false, message: "Couldn't save event" }) }
           DB.EventPromoter.findOne({_id: req.decoded.id}, function (err, promoter) {
             if (err) { return res.status(500).send(err) }
+            if (!promoter) { return res.status(500).json({success: false, message: 'No promoter found: ' + req.decoded.id}) }
             promoter.events.push(event._id)
             promoter.save((e) => {
               return res.status(202).json({
@@ -159,10 +161,14 @@ const Event = {
         if (err) {
           return res.status(500).send(err)
         }
-
-        return res.status(202).json({
-          success: true,
-          message: JSON.parse(body)
+        DB.Ticket.findOne({event: id, seatID: seat}, function (err, ticket) {
+          if (err) {
+            return res.send(err)
+          }
+          return res.status(202).json({
+            sucess: true,
+            message: ticket
+          })
         })
       })
     })
@@ -252,27 +258,29 @@ const EventOperation = {
                           success: false,
                           message: 'Cannot buy ticket'})
                       }
-                      console.log('entro3')
+
+                      const r = JSON.parse(body)
                       var ticket = new DB.Ticket({
+                        _id: event.seatMap[i].seats[j]._id,
                         idHash: idHash,
                         event: name,
                         zone: zone,
                         seat: seat,
                         seatID: s.seatID,
                         price: price,
-                        delegatedHash: delegatedHash
+                        delegatedHash: delegatedHash,
+                        ethereumHash: r.tx.transactionHash
                       })
                       console.log('entro4')
                       ticket.save(function (err, t) {
                         if (err) { return res.status(500).send(err) }
                         event.seatMap[i].seats[j].status = 'Sold'
-                        event.seatMap[i].seats[j].ticket = t._id
                         event.save(function (err, s) {
                           if (err) { return console.log(err) }
                           return res.json({
                             success: true,
                             message: t,
-                            tx: JSON.parse(body).tx.transactionHash})
+                            tx: r.tx.transactionHash})
                         })
                       })
                     })
@@ -347,13 +355,12 @@ const EventOperation = {
   returnTicket: function (req, res) {
     var ticketID = req.body.ticket
     var owner = req.body.owner
-    console.log(req.body)
     if (!ticketID || !owner) {
       return res.status(405).send({
         success: false,
         message: 'Method Not Allowed. Invalid arguments.'})
     }
-
+    console.log({_id: ticketID})
     DB.Ticket.findOne({_id: ticketID}, (err, ticket) => {
       if (err) return res.send(err)
       if (!ticket) {
@@ -395,13 +402,27 @@ const EventOperation = {
                         url: 'http://localhost:3001/event/returnTicket',
                         form: ethBody},
                         (err, resp, body) => {
-                          if (err) return res.status(400).send(err)
+                          if (err) {
+                            return res.status(400).json({
+                              sucess: false,
+                              message: err
+                            })
+                          }
+                          const r = JSON.parse(body)
+                          console.log(r)
+                          if (!r.success) {
+                            return res.status(405).json({
+                              sucess: false,
+                              message: r.message
+                            })
+                          }
                           event.seatMap[i].seats[j].status = 'Availible'
-                          event.seatMap[i].seats[j].ticket = '0'
                           event.save(function (err, s) {
                             if (err) { console.log(err) }
-                            return res.status(202).send({
+                            console.log(body)
+                            return res.status(202).json({
                               success: true,
+                              tx: r.tx.transactionHash,
                               message: 'Accepted. Ticket returned.'})
                           })
                         })

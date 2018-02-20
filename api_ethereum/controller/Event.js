@@ -79,6 +79,9 @@ const Event = {
 
       callTx(c.methods.tickets(seat)).then(e => {
         console.log(e)
+        delete e['0']
+        delete e['1']
+        delete e['2']
         res.status(202).json({
           success: true,
           message: e
@@ -158,17 +161,11 @@ const EventOperation = {
   buyTicket: function (req, res) {
     var c = contracts.Event
     c.options.address = req.body.address
-    var owner = web3.utils.fromAscii(req.body.owner)
-    var delegate = web3.utils.fromAscii(req.body.delegate)
+    var owner = web3.utils.sha3(req.body.owner)
+    var delegate = web3.utils.sha3(req.body.delegate)
     var seat = parseInt(req.body.seat)
     var price = parseInt(req.body.price)
-    sendTx()
-      .then(e => {
-        if (e.success !== undefined && !e.success) { return res.status(405).send(e) }
-        res.status(202).send({
-          success: true,
-          message: e})
-    })
+
     sendTxAndGetInfo(c.methods.buyTicket(owner, seat, price, delegate)).then(
       (e) => {
         if (!e) {
@@ -178,7 +175,7 @@ const EventOperation = {
         }
 
         e.promise.then(info => {
-          res.status(202).json({message: true, message: info, tx: e.tx})
+          res.status(202).json({success: true, message: info, tx: e.tx})
         })
       }
     )
@@ -186,9 +183,9 @@ const EventOperation = {
   resellTicket: function (req, res) {
     var c = contracts.Event
     c.options.address = req.body.address
-    var owner = web3.utils.fromAscii(req.body.owner)
-    var newOwner = web3.utils.fromAscii(req.body.newOwner)
-    var delegate = web3.utils.fromAscii(req.body.delegate)
+    var owner = web3.utils.sha3(req.body.owner)
+    var newOwner = web3.utils.sha3(req.body.newOwner)
+    var delegate = web3.utils.sha3(req.body.delegate)
     var seat = parseInt(req.body.seat)
     var price = parseInt(req.body.price)
 
@@ -204,11 +201,21 @@ const EventOperation = {
     var c = contracts.Event
     c.options.address = req.body.address
     var seat = parseInt(req.body.seat)
-    var owner = web3.utils.fromAscii(req.body.owner)
-    sendTx(c.methods.returnTicket(owner, seat)).then(e => {
-      res.status(202).send({
-        success: true,
-        message: 'Ticket returned'})
+    var owner = web3.utils.sha3(req.body.owner)
+    console.log(owner, seat)
+    sendTxAndGetInfo(c.methods.returnTicket(owner, seat)).then(e => {
+      console.log(e)
+      if (!e || !e.promise) {
+        return res.status(405).send({
+          success: false,
+          message: "Couldn't return ticket"})
+      }
+      e.promise.then(info => {
+        res.status(202).send({
+          success: true,
+          tx: e.tx,
+          message: 'Ticket returned'})
+      })
     })
   }
 }
