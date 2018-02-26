@@ -352,6 +352,13 @@ const EventOperation = {
     })
   },
 
+  setTicketResell: function (req,res){
+    return res.status(200).json({
+      success: true,
+      message: "OK"
+    })
+  },
+
   returnTicket: function (req, res) {
     var ticketID = req.body.ticket
     var owner = req.body.owner
