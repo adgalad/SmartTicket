@@ -180,6 +180,7 @@ const EventOperation = {
       }
     )
   },
+
   resellTicket: function (req, res) {
     var c = contracts.Event
     c.options.address = req.body.address
@@ -188,13 +189,26 @@ const EventOperation = {
     var delegate = web3.utils.sha3(req.body.delegate)
     var seat = parseInt(req.body.seat)
     var price = parseInt(req.body.price)
-
-    sendTx(c.methods.resellTicket(owner, newOwner, seat, price, delegate))
-      .then(e => {
-        return res.status(202).send({
-          success: true,
-          message: 'Ticket resold'})
+    sendTxAndGetInfo(c.methods.resellTicket(owner, newOwner, seat, price, delegate)).then(e => {
+      console.log('>>>>>>', e)
+      if (!e || !e.promise) {
+        return res.status(405).send({
+          success: false,
+          message: "Couldn't return ticket"})
+      }
+      e.promise.then(info => {
+        if (!e.success) {
+          return res.status(405).json({
+            success: false,
+            message: info.message})
+        } else {
+          res.status(202).send({
+            success: true,
+            tx: e.tx,
+            message: 'Ticket reselled'})
+        }
       })
+    })
   },
 
   returnTicket: function (req, res) {

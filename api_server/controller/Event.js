@@ -306,7 +306,6 @@ const EventOperation = {
     var oldOwner = req.body.owner
     var newOwner = req.body.newOwner
     var delegated = req.body.delegated
-    var newPrice = req.body.price
 
     if (!ticketID || !oldOwner || !newOwner) {
       return res.status(405).send({
@@ -317,45 +316,123 @@ const EventOperation = {
       delegated = '0'
     }
 
-    DB.Ticket.findOne({_id: ticketID, hashID: oldOwner}, function (err, ticket) {
+    DB.Ticket.findOne({_id: ticketID}, function (err, ticket) {
       if (err) return res.send(err)
+      var zone = ticket.zone
+      var seat = ticket.seat
+
       DB.Event.findOne({_id: ticket.event}, function (err, event) {
         if (err) return res.send(err)
-        if (ticket.idHash === oldOwner) {
+        if (true) /* (ticket.idHash === oldOwner) */ {
           var ethBody = {
             address: event.ethereumHash,
             owner: oldOwner,
             newOwner: newOwner,
             delegate: delegated,
             seat: ticket.seatID,
-            price: newPrice
+            price: ticket.price
           }
+
           request.post({
             url: 'http://localhost:3001/event/resellTicket',
             form: ethBody},
           (err, resp, body) => {
             if (err) res.status(400).send(err)
-            DB.Ticket.update({_id: ticketID},
-              {idHash: newOwner,
-                delegatedHash: delegated,
-                price: newPrice,
-                function (err, nAffected, rawResponse) {
-                  if (err) res.send(err)
-                  return res.status(200).send({
-                    success: true,
-                    message: 'Ticket updated.'})
+            var seatmap = event.seatMap
+
+            for (var i = 0; i < seatmap.length; i++) {
+              if (seatmap[i].name === zone) {
+                for (var j = 0; j < seatmap[i].seats.length; j++) {
+                  var s = seatmap[i].seats[j]
+                  if (s.name === seat) {
+                    if (s.status === 'Resell') {
+                      console.log('entro3')
+                      event.seatMap[i].seats[j].status = 'Sold'
+                      return event.save(function (err, s) {
+                        if (err) { console.log(err) }
+                        console.log('entro4')
+                        ticket.idHash = newOwner
+                        ticket.delegatedHash = newOwner
+                        ticket.save(function (err, nAffected, rawResponse) {
+                          console.log('entro2')
+                          if (err) res.send(err)
+                          return res.status(200).send({success: true, message: 'Ticket updated.'})
+                        })
+                      })
+                    } else {
+                      return res.status(405).send({
+                        success: false,
+                        message: 'Seat (' + zone + ':' + seat + ') is not being sold'})
+                    }
+                  }
                 }
-              })
+              }
+            }
           })
         }
       })
     })
   },
 
-  setTicketResell: function (req,res){
-    return res.status(200).json({
-      success: true,
-      message: "OK"
+  setTicketResell: function (req, res) {
+    const ticketID = req.body.ticket
+    const owner = req.body.owner
+    const price = req.body.price
+    if (!ticketID || !owner || price === undefined) {
+      return res.status(405).send({
+        success: false,
+        message: 'Method Not Allowed. Invalid arguments.'})
+    }
+    DB.Ticket.findOne({_id: ticketID}, (err, ticket) => {
+      if (err) return res.send(err)
+      if (!ticket) {
+        return res.status(404).send({
+          success: false,
+          message: 'Ticket not found'})
+      }
+      var eventID = ticket.event
+      var zone = ticket.zone
+      var seat = ticket.seat
+      DB.Event.findOne({_id: eventID}, function (err, event) {
+        if (err) {
+          return res.send(err)
+        } else if (!event) {
+          return res.status(404).send({
+            success: false,
+            message: 'Event not found'})
+        } else if (event.owner !== req.decoded.id) {
+          return res.status(404).send({
+            success: false,
+            message: 'Forbidden. You are not the event owner.'})
+        } else {
+          var seatmap = event.seatMap
+          for (var i = 0; i < seatmap.length; i++) {
+            if (seatmap[i].name === zone) {
+              for (var j = 0; j < seatmap[i].seats.length; j++) {
+                var s = seatmap[i].seats[j]
+                if (s.name === seat) {
+                  if (s.status === 'Sold') {
+                    event.seatMap[i].seats[j].status = 'Resell'
+                    return event.save(function (err, s) {
+                      if (err) { console.log(err) }
+                      return res.status(202).json({
+                        success: true,
+                        message: 'Accepted. Ticket is being resold.'})
+                    })
+                  } else {
+                    return res.status(405).send({
+                      success: false,
+                      message: 'Seat (' + zone + ':' + seat + ') was availible, cannot be resold'})
+                  }
+                }
+              }
+            }
+          }
+          return res.status(404).send({
+            success: false,
+            message: 'Seat not found'})
+        }
+      })
     })
   },
 

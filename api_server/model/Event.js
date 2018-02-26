@@ -44,7 +44,7 @@ const SeatSchema = new Schema({
   },
   status: {
     type: String,
-    enum: ['Availible', 'Sold'],
+    enum: ['Availible', 'Sold', 'Resell'],
     default: 'Availible'
   },
   seatID: {
