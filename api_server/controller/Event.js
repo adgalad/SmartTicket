@@ -306,8 +306,9 @@ const EventOperation = {
     var oldOwner = req.body.owner
     var newOwner = req.body.newOwner
     var delegated = req.body.delegated
-
-    if (!ticketID || !oldOwner || !newOwner) {
+    var price = req.body.price
+    console.log(ticketID, oldOwner, newOwner, price)
+    if (!ticketID || !oldOwner || !newOwner || price === undefined) {
       return res.status(405).send({
         success: false,
         message: 'Method Not Allowed. Invalid arguments.'})
@@ -330,7 +331,7 @@ const EventOperation = {
             newOwner: newOwner,
             delegate: delegated,
             seat: ticket.seatID,
-            price: ticket.price
+            price: price
           }
 
           request.post({
@@ -350,11 +351,9 @@ const EventOperation = {
                       event.seatMap[i].seats[j].status = 'Sold'
                       return event.save(function (err, s) {
                         if (err) { console.log(err) }
-                        console.log('entro4')
                         ticket.idHash = newOwner
                         ticket.delegatedHash = newOwner
                         ticket.save(function (err, nAffected, rawResponse) {
-                          console.log('entro2')
                           if (err) res.send(err)
                           return res.status(200).send({success: true, message: 'Ticket updated.'})
                         })
@@ -378,7 +377,7 @@ const EventOperation = {
     const ticketID = req.body.ticket
     const owner = req.body.owner
     const price = req.body.price
-    if (!ticketID || !owner || price === undefined) {
+    if (!ticketID || !owner || !price) {
       return res.status(405).send({
         success: false,
         message: 'Method Not Allowed. Invalid arguments.'})
@@ -413,6 +412,7 @@ const EventOperation = {
                 if (s.name === seat) {
                   if (s.status === 'Sold') {
                     event.seatMap[i].seats[j].status = 'Resell'
+                    event.seatMap[i].seats[j].resellPrice = price
                     return event.save(function (err, s) {
                       if (err) { console.log(err) }
                       return res.status(202).json({
@@ -511,10 +511,14 @@ const EventOperation = {
                           })
                         })
                       return
+                    } else if (s.status === 'Sold') {
+                      return res.status(405).send({
+                        success: false,
+                        message: 'Seat (' + zone + ':' + seat + ') is being sold, cannot be returned'})
                     } else {
                       return res.status(405).send({
                         success: false,
-                        message: 'Seat (' + zone + ':' + seat + ') was availible, cannot be returned'})
+                        message: 'Seat (' + zone + ':' + seat + ') is availible, cannot be returned'})
                     }
                   }
                 }

@@ -27,6 +27,10 @@ const TicketSchema = new Schema({
     type: Number,
     required: 'An ID is required'
   },
+  resellPrice: {
+    type: Number,
+    default: 0
+  },
   delegatedHash: {
     type: String,
     default: '0x0'
@@ -54,6 +58,10 @@ const SeatSchema = new Schema({
   price: {
     type: Number,
     required: 'A price is required'
+  },
+  resellPrice: {
+    type: Number,
+    default: 0
   }
 })
 
