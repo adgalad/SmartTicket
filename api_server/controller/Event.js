@@ -347,7 +347,6 @@ const EventOperation = {
                   var s = seatmap[i].seats[j]
                   if (s.name === seat) {
                     if (s.status === 'Resell') {
-                      console.log('entro3')
                       event.seatMap[i].seats[j].status = 'Sold'
                       return event.save(function (err, s) {
                         if (err) { console.log(err) }
@@ -355,7 +354,10 @@ const EventOperation = {
                         ticket.delegatedHash = newOwner
                         ticket.save(function (err, nAffected, rawResponse) {
                           if (err) res.send(err)
-                          return res.status(200).send({success: true, message: 'Ticket updated.'})
+                          return res.status(200).send({
+                            success: true,
+                            message: ticket
+                          })
                         })
                       })
                     } else {

@@ -190,7 +190,6 @@ const EventOperation = {
     var seat = parseInt(req.body.seat)
     var price = parseInt(req.body.price)
     sendTxAndGetInfo(c.methods.resellTicket(owner, newOwner, seat, price, delegate)).then(e => {
-      console.log('>>>>>>', e)
       if (!e || !e.promise) {
         return res.status(405).send({
           success: false,
