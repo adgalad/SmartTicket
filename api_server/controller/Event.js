@@ -438,6 +438,66 @@ const EventOperation = {
     })
   },
 
+  cancelTicketResell: function (req, res) {
+    const ticketID = req.body.ticket
+    if (!ticketID) {
+      return res.status(405).send({
+        success: false,
+        message: 'Method Not Allowed. Invalid arguments.'})
+    }
+    DB.Ticket.findOne({_id: ticketID}, (err, ticket) => {
+      if (err) return res.send(err)
+      if (!ticket) {
+        return res.status(404).send({
+          success: false,
+          message: 'Ticket not found'})
+      }
+      var eventID = ticket.event
+      var zone = ticket.zone
+      var seat = ticket.seat
+      DB.Event.findOne({_id: eventID}, function (err, event) {
+        if (err) {
+          return res.send(err)
+        } else if (!event) {
+          return res.status(404).send({
+            success: false,
+            message: 'Event not found'})
+        } else if (event.owner !== req.decoded.id) {
+          return res.status(404).send({
+            success: false,
+            message: 'Forbidden. You are not the event owner.'})
+        } else {
+          var seatmap = event.seatMap
+          for (var i = 0; i < seatmap.length; i++) {
+            if (seatmap[i].name === zone) {
+              for (var j = 0; j < seatmap[i].seats.length; j++) {
+                var s = seatmap[i].seats[j]
+                if (s.name === seat) {
+                  if (s.status === 'Resell') {
+                    event.seatMap[i].seats[j].status = 'Sold'
+                    return event.save(function (err, s) {
+                      if (err) { console.log(err) }
+                      return res.status(202).json({
+                        success: true,
+                        message: 'Accepted. Ticket is being resold.'})
+                    })
+                  } else {
+                    return res.status(405).send({
+                      success: false,
+                      message: 'Seat (' + zone + ':' + seat + ') was availible, cannot be cancel'})
+                  }
+                }
+              }
+            }
+          }
+          return res.status(404).send({
+            success: false,
+            message: 'Seat not found'})
+        }
+      })
+    })
+  },
+
   returnTicket: function (req, res) {
     var ticketID = req.body.ticket
     var owner = req.body.owner
