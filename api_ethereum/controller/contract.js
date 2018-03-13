@@ -47,8 +47,10 @@ function callTx (f) {
   return f.call()
 }
 
-module.exports.loadContract = loadContract
-module.exports.contracts = contracts
-module.exports.sendTx = sendTx
-module.exports.sendTxAndGetInfo = sendTxAndGetInfo
-module.exports.callTx = callTx
+module.exports = {
+  loadContract: loadContract,
+  contracts: contracts,
+  sendTx: sendTx,
+  sendTxAndGetInfo: sendTxAndGetInfo,
+  callTx: callTx
+}

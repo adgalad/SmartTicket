@@ -2,7 +2,7 @@ const fs = require('fs')
 const shell = require('shelljs')
 const web3 = require('./web3')
 
-function migrate (account, contractName) {
+function migrate (account, contractName, callback) {
   // Compile contract
   shell.exec('rm -rf build/; truffle compile')
   // Deploy contracts
@@ -18,6 +18,7 @@ function migrate (account, contractName) {
     return fs.writeFile(fileName, JSON.stringify(json), 'utf8', e => {
       if (e) console.log(e)
       else console.log('Saving', fileName)
+      callback()
     })
   })
 }
