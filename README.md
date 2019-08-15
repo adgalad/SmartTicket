@@ -1,9 +1,9 @@
 # Dependencias
-## Ganache (blockchain local)
+### Ganache (blockchain local)
 
 Ganache ayuda a montar una testnet local con la cual probar los smartcontracts
 
-## Truffle (Smartcontracts tool)
+### Truffle (Smartcontracts tool)
 
 Los smartcontract son compilados usando truffle. Difieren del modo en el que son compilados por
 el compilador de solidity (solc, solcjs) en que generan un .json en lugar del .bin y .abi
