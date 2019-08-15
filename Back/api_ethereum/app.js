@@ -5,6 +5,7 @@ const routes = require('./routes/routes')
 const migrate = require('./migration')
 
 module.exports = function (arg) {
+  console.log("hola")
   web3.eth.getAccounts().then(function (accounts) {
     const initServer = function () {
       contract.loadContract(accounts[0], 'Admin')
@@ -15,7 +16,9 @@ module.exports = function (arg) {
     }
 
     if (arg === 'migrate') {
+      console.log("hola")
       migrate(accounts[0], 'Admin', initServer)
+
     } else {
       initServer()
     }

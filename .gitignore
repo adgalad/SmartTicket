@@ -1,5 +1,5 @@
-node_modules/*
-.eslintrc.js
+*/node_modules/*
+*/.eslintrc.js
 *.bin
-build/contracts/*
-doc/*
+Back/build/contracts/*
+*/doc/*

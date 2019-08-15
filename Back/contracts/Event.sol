@@ -1,15 +1,15 @@
-pragma solidity ^0.4.18;
-
+pragma solidity ^0.5.8;
+pragma experimental ABIEncoderV2;
 
 /**
  * The Event contract
-*/
+ */
 
 contract OwnerOnly {
   address owner;
-  modifier ownerOnly() { 
+  modifier ownerOnly() {
     // require(owner == tx.origin);
-    _; 
+    _;
   }
 }
 
@@ -26,16 +26,17 @@ contract Event is OwnerOnly {
   uint64 public date;
   string public name;
   string public place;
-  
+
   // Options
   bool public _canResell;
   bool public _canDelegate;
   bool public _canReturn;
 
   /* Constructor */
-  function Event (string _name,  string _place,  uint64 _date,
-                  uint32 _nSeat, bool   _resell, bool   _delegate, 
-                  bool   _return) 
+  constructor (string memory _name,  string memory _place,
+                  uint64 _date,   uint32 _nSeat,
+                  bool   _resell, bool   _delegate,
+                  bool   _return)
   public
   {
     name     = _name;
@@ -46,22 +47,22 @@ contract Event is OwnerOnly {
     _canDelegate = _delegate;
     _canReturn = _return;
     owner    = tx.origin;
-  }    
+  }
 
-  /* Operations */ 
-  function buyTicket(bytes32 buyer, uint32 seat, uint32 price, bytes32 delegated) 
-  public canDelegate(delegated) onTime() ownerOnly() 
+  /* Operations */
+  function buyTicket(bytes32 buyer, uint32 seat, uint32 price, bytes32 delegated)
+  public canDelegate(delegated) onTime() ownerOnly()
   {
     require(tickets[seat].hashID == 0);
     Ticket memory t;
-    t.hashID       = buyer; 
+    t.hashID       = buyer;
     t.hashDelegate = delegated;
     t.price        = price;
     tickets[seat]  = t;
   }
 
   function resellTicket(bytes32 ticketOwner, bytes32 buyer, uint32 seat,
-                        uint32  price, bytes32 delegated) 
+                        uint32  price, bytes32 delegated)
   public canResell() canDelegate(delegated) onTime() ownerOnly()
   {
     // require(tickets[seat].hashID == ticketOwner);
@@ -80,11 +81,11 @@ contract Event is OwnerOnly {
   }
 
   /* Only Read */
-  function getInfo() public view returns(string, string, uint64, uint32, bool, bool, bool) {
+  function getInfo() public view returns(string memory, string memory, uint64, uint32, bool, bool, bool) {
     return (name, place, date, nSeat, _canResell, _canDelegate, _canReturn);
   }
 
-  function getTicket(uint32 seat) public view returns(Ticket){
+  function getTicket(uint32 seat) public view returns(Ticket memory){
     return tickets[seat];
   }
 
@@ -93,11 +94,11 @@ contract Event is OwnerOnly {
     date = newDate;
   }
 
-  function changeName (string newName) public onTime() ownerOnly() {
+  function changeName (string memory newName) public onTime() ownerOnly() {
     name = newName;
   }
 
-  function changePlace (string newPlace) public onTime() ownerOnly() {
+  function changePlace (string memory newPlace) public onTime() ownerOnly() {
     place = newPlace;
   }
 
@@ -130,14 +131,14 @@ contract EventPromoter is OwnerOnly {
   string public name;
   Event[] _events;
 
-  function EventPromoter(string _name) public{
+  constructor(string memory _name) public{
     name = _name;
     owner = tx.origin;
   }
 
-  function createEvent (string _name,  string place,  uint64 date,
+  function createEvent (string memory _name,  string memory place,  uint64 date,
                         uint32 nSeat, bool   resell, bool   delegate,
-                        bool canReturn) 
+                        bool canReturn)
   public ownerOnly() returns (address){
     Event e = new Event(_name, place, date, nSeat, resell, delegate, canReturn);
     events[address(e)] = e;
@@ -149,13 +150,13 @@ contract EventPromoter is OwnerOnly {
     delete events[addr];
   }
 
-  function listEvents() public view returns(Event[]){
+  function listEvents() public view returns(Event[] memory){
     return _events;
   }
 }
 
 /*
- * The contract Admin is the responsable of 
+ * The contract Admin is the responsable of
  * creating new EventPromoters. Is the first contract
  * deployed when the application is launched
  */
@@ -163,18 +164,18 @@ contract Admin is OwnerOnly {
   mapping (address => EventPromoter) public promoters;
   EventPromoter[] _promoters;
 
-  function Admin() public {
+  constructor() public {
     owner = tx.origin;
   }
 
-  function createPromoter(string name) public ownerOnly() returns(address){
+  function createPromoter(string memory name) public ownerOnly() returns(address){
     EventPromoter p = new EventPromoter(name);
     promoters[address(p)] = p;
     _promoters.push(p);
     return address(p);
   }
 
-  function listPromoters()public view returns(EventPromoter[]){
+  function listPromoters()public view returns(EventPromoter[] memory){
     return _promoters;
   }
 }

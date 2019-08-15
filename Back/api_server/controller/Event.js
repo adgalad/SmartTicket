@@ -4,6 +4,7 @@ const request = require('request')
 
 const Event = {
   show: function (req, res) {
+    console.log(req)
     DB.Event.find({owner: req.decoded.id}, function (err, events) {
       if (err) { res.send(err) }
       res.json(events)
@@ -33,6 +34,7 @@ const Event = {
 
   create: function (req, res) {
     var b = req.body
+
     if (!b.seatmap || !b.name || !b.place || !b.date ||
          b.resell === undefined || b.delegate === undefined ||
          b.canReturn === undefined) {
