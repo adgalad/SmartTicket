@@ -1,0 +1,80 @@
+<!-- Navbar -->
+<nav class="nav-extended">
+  <div class="nav-wrapper">
+    <a href="/" class="brand-logo">SmarTicket</a>
+    <ul id="nav-mobile" class="right hide-on-med-and-down">
+      <div id = "login" hidden>
+          <li><a href="/IniciarSesion">Iniciar Sesión</a></li>
+          <li><a routerLink="/Registrar" routerLinkActive="active">Registrarse</a></li>
+      </div>
+      <div id = "logout" hidden>
+          <li><img *ngIf="globals.getImage()!==''"class="imagen" src="{{globals.getImage()}}">&nbsp;&nbsp;&nbsp;</li>
+
+          <li> <b> Hola, {{globals.getSession().name}} </b></li>
+          <li> <a href="/Perfil">Cuenta</a></li>
+          <li> <a href="/Panel">Panel</a> </li>
+          <li> <a (click)="logOut()">Salir</a></li>
+      </div>
+    </ul>
+  </div>
+    <div style="background-color: #43a3e3;" class="nav-content"*ngIf="router.url == '/'">
+      <ul id="tabs" class="tabs tabs-transparent">
+        <li class="tab"><a class="active" href="#Inicio">Inicio</a></li>
+        <li class="tab"><a href="#Eventos">Eventos</a></li>
+        <li class="tab"><a href="#Noticias">Noticias</a></li>
+        <li class="tab"><a href="#Buscar">Buscar</a></li>
+      </ul>
+    </div>
+</nav>
+
+<div id="test1" class="col s12"></div>
+<router-outlet></router-outlet>
+
+<div id="Eventos" *ngIf="router.url == '/'">
+  <app-event></app-event>
+</div>
+
+<div id="Inicio" *ngIf="router.url == '/'">
+  <app-index></app-index>
+</div>
+
+<div id="Buscar" *ngIf="router.url == '/'">
+  <app-search></app-search>
+</div>
+
+<div id="Noticias" *ngIf="router.url == '/'">
+  <p>En construcción ...</p>
+</div>
+
+
+<footer class="page-footer" style="position: relative; margin-top: 1%; bottom: 0; width: 100%;">
+  <div class="container" align="left">
+    <div class="row">
+      <div class="col l6 s12">
+        <h5 class="white-text"><b>SmarTicket</b></h5>
+        <ul>
+          <li><a class="grey-text text-lighten-3" href="#!">Música</a></li>
+          <li><a class="grey-text text-lighten-3" href="#!">Teatro</a></li>
+          <li><a class="grey-text text-lighten-3" href="#!">Deportes</a></li>
+          <li><a class="grey-text text-lighten-3" href="#!">Cine</a></li>
+        </ul>
+      </div>
+      <div class="col l4 offset-l2 s12">
+        <h5 class="white-text"><b>¿Te podemos ayudar?</b></h5>
+        <ul>
+          <li><a class="grey-text text-lighten-3" href="#!">Tu cuenta</a></li>
+          <li><a class="grey-text text-lighten-3" href="#!">Revender ticket</a></li>
+          <li><a class="grey-text text-lighten-3" href="#!">Reembolsar ticket</a></li>
+          <li><a class="grey-text text-lighten-3" href="#!">Preguntas Frecuentes</a></li>
+          <li><a class="grey-text text-lighten-3" href="#!">¿Quiénes somos?</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-copyright">
+    <div class="container">
+      © 2017 Smartbase Group
+      <a class="grey-text text-lighten-4 right" href="#!">Contactenos</a>
+    </div>
+  </div>
+</footer>

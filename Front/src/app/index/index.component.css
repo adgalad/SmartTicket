@@ -1,0 +1,21 @@
+#chevron_left {
+    margin-top: 20%;
+    margin-left: 5%;
+    position: absolute;
+    background-color: #1ccacd !important;
+    z-index: 2;
+}
+#chevron_left:hover {
+    background-color: #FB014C !important;
+}
+
+#chevron_right {
+    right: 5%;
+    margin-top: 20%;
+    position: absolute;
+    background-color: #1ccacd !important;
+    z-index: 2;
+}
+#chevron_right:hover {
+    background-color: #FB014C !important;
+}

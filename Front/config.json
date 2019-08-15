@@ -1,0 +1,10 @@
+{
+  "flask":{
+    "network":"192.168.0.119",
+    "port":"5001"
+  }, 
+  "angular": {
+    "network":"localhost",
+    "port":"3000"
+  }
+}

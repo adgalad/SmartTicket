@@ -1,0 +1,194 @@
+<div id="edit">
+  <div class="row" id="firstDiv">
+    <div class="row" id="secondDiv">
+      <br><h5> Crear Evento </h5>
+      <form action="#" [formGroup]="form" (ngSubmit)="onSubmit()">
+
+        <div class="row">
+          <div class="input-field col s12">
+            <input id="name" type="text" class="validate form-control" formControlName="name" required>
+            <label for="name">Nombre del Evento</label>
+          </div>
+        </div>
+        
+        <div class="row">
+          <div class="input-field col s12">
+            <textarea id="description" class="materialize-textarea"></textarea>
+            <label for="textarea1">Descripción</label>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="input-field col s12">
+            <input id="place" type="text" class="validate form-control" formControlName="place" required>
+            <label for="place">Lugar</label>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="input-field col s6">
+              <input id="date" placeholder=" " type="text" class="datepicker" formControlName="date">
+              <label for="date">Fecha</label>
+          </div>
+
+          <div class="input-field col s6">
+              <input type="text" placeholder=" " class="timepicker">
+              <label for="time">Hora</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col s6">
+            <p style="color: white;">Tipo de Evento</p>
+            <select class="browser-default" id="type" formControlName="type">
+              <option disabled selected>Tipo de evento</option>
+              <option value="0">Feria</option>
+              <option value="1">Cine</option>
+              <option value="2">Deporte</option>
+              <option value="3">Música</option>
+              <option value="4">Teatro</option>
+            </select>
+          </div>
+        </div>
+        <br>
+        <!-- Dropdown Trigger -->
+        
+        <h5>Opciones</h5>
+        <br>
+        <div class="row" style="margin-left: 2%">
+            <p>
+              <input type="checkbox" class="filled-in" id="delegate" formControlName="delegate"/>
+              <label for="delegate" class="label">Se puede delegar ticket</label>
+            </p>
+            <p>
+              <input type="checkbox" class="filled-in" id="resell" formControlName="resell"/>
+              <label for="resell" class="label">Se puede revender</label>
+            </p>
+            <p>
+              <input type="checkbox" class="filled-in" id="canReturn" formControlName="canReturn"/>
+              <label for="canReturn" class="label">Se puede reembolsar</label>
+            </p>
+        </div>
+        <br>
+        <h5>Imagenes</h5>
+
+        <div class="file-field input-field">
+          <div class="file-path-wrapper">
+            <div class="col s6">
+              <input class="file-path validate" type="text">
+            </div>
+            <div class="btn" (click)="clearFile('image')" style="width: 20%;">
+              <span>Imagen</span>
+              <input type="file" id="image" (change)="onFileChange('image', $event)" #fileInput>
+            </div>
+          </div> 
+        </div>
+
+        <div class="file-field input-field">
+          <div class="file-path-wrapper">
+            <div class="col s6">
+              <input class="file-path validate" type="text">
+            </div>
+            <div class="btn" (click)="clearFile('wallpaper')" style="width: 20%;">
+              <span>Wallpapper</span>
+              <input type="file" id="wallpaper" (change)="onFileChange('wallpaper', $event)" #fileInput>
+            </div>
+          </div>
+        </div>
+
+        <div class="file-field input-field">
+          <div class="file-path-wrapper">
+            <div class="col s6">
+              <input class="file-path validate" type="text">
+            </div>
+            <div class="btn" (click)="clearFile('thumbnail')" style="width: 20%;">
+              <span>Miniatura</span>
+              <input type="file" id="thumbnail" (change)="onFileChange('thumbnail', $event)" #fileInput>
+            </div>
+          </div>
+        </div>
+        <br>
+        <!-- Submit -->
+        <div  align="center">
+          <br>
+          <div id="button1">
+              <button class="btn" type="submit" name="action">
+                <i>Crear</i>
+              </button>
+          </div>
+        </div>
+      </form>
+      <div  align="center">
+        <br>
+        <div>
+          <button class="btn" (click)="onPreview()" >
+            <i>Previsualizar</i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="preview" hidden="true">
+  <h2> Previsualización </h2>
+  <div class="row" id="firstDiv" >
+    <br>
+    <div class="container row">
+      
+      <div class="col s6">
+        <img *ngIf="event.image" style='display:block; width:80%' id='base64image'                  
+           src='data:{{event.image.filetype}};base64,{{event.image.value}}' />
+        <br>
+        
+        <b> Lugar: </b> {{event.place}} <br>
+        <div *ngIf="event.date.toLocaleDateString">
+          <b> Fecha: </b> {{event.date.toLocaleDateString()}} <br>
+        </div>
+        <div *ngIf="event.date.toLocaleTimeString">
+          <b> Hora:  </b> {{event.date.toLocaleTimeString()}} <br>
+        </div>
+        <b> ID:  </b> {{event._id}} <br>
+        <b> Categoría: </b> {{event.type}} <br>
+
+        <div *ngIf="event.delegate">
+          <i class="material-icons" style="color: green">check_circle</i> Delegar ticket
+        </div>
+        <div *ngIf="!event.delegate">
+          <i class="material-icons" style="color: red">not_interested</i> Delegar ticket
+        </div>
+        
+        <div *ngIf="event.resell">
+          <i class="material-icons" style="color: green">check_circle</i> Revender ticket
+        </div>
+        <div *ngIf="!event.resell">
+          <i class="material-icons" style="color: red">not_interested</i> Revender ticket
+        </div>
+        
+        <div *ngIf="event.canReturn">
+          <i class="material-icons" style="color: green">check_circle</i> Reembolsar ticket
+        </div>
+        <div *ngIf="!event.canReturn">
+          <i class="material-icons" style="color: red">not_interested</i> Reembolsar ticket
+        </div>
+        <br><br>
+      </div>
+      <div class="col s6">
+        <h2>{{event.name}}</h2>
+        
+
+        <p>{{event.description}}</p> <br>
+
+      </div>
+    </div>
+    
+    <br>
+    <br>
+    <div align="center">
+        <button class="btn" (click)="onEdit()" >
+          <i>Editar</i>
+        </button>
+    </div>
+    <br>
+    <br>
+  </div>
+</div>

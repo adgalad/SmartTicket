@@ -1,0 +1,464 @@
+<br>
+<div id="buyTicketView">
+  <div class="row" >
+    <div class="col s1"> </div>
+    <div class="col s2">
+      <img style='display:block; width:80%' id='base64image'                  
+          src='data:{{event.thumbnail.filetype}};base64,{{event.thumbnail.value}}' />
+    </div>
+    <div class="col s8">
+      <h5>{{event.name}}</h5>
+      <b> Lugar: </b> {{event.place}} <br>
+      <b> Fecha y hora: </b> {{event.date.toLocaleString()}} <br>
+      <b> ID: </b> {{event._id}} <br>
+    </div>
+  </div>
+  <div class="row" id="firstDiv">
+    <div id="secondDiv">
+      <br>
+      <h5> Comprar </h5>
+
+      <div class="row">
+
+        <div class="col s6" style="float: left;">
+          <button id="goBack">Atrás</button>
+          <div id="zones">
+            
+            <img class="map-zones img-responsive" src="../assets/images/layout.png" alt="" usemap="#Map" />
+
+            <map name="Map" id="Map">
+                <area alt="" id="B1" title="Zona B1" href="#" shape="poly" coords="91,143,109,138,130,135,165,260,141,265,120,274,107,281" alt="B1" 
+                class="group"  />
+                <area alt="" id="VIP" title="Zona VIP" href="#" shape="poly" coords="167,315,229,308,277,307,328,309,377,315,364,266,305,261,251,261,209,264,177,266" />
+                <area alt="" id="A2" title="Zona A2" href="#" shape="poly" coords="165,193,175,249,227,243,269,243,306,244,367,250,378,193,311,186,236,187" />
+                <area alt="Jamon" id="A1" title="Zona A1" href="#" shape="poly" coords="139,101,167,177,238,170,309,170,375,178,401,102,316,96,225,96" />
+                <area alt="" id="B2" title="Zona B2" href="#" shape="poly" coords="414,133,379,259,411,266,438,279,455,142" />
+            </map>
+          </div>
+
+          <div id="seats-A1">
+            <br><br><br>
+            <img src="../assets/images/A1.png" class="map-A1-img" alt="" usemap="#map-A1" />
+            <map id="map-A1" name="map-A1">
+              <area id="1" name="A1-1" alt="hola" title="1" href="#" coords="37,30,9" shape="circle" >
+              <area id="2" name="A1-2" alt="" title="2" href="#" coords="67,27,9" shape="circle">
+              <area id="3" name="A1-3" alt="" title="3" href="#" coords="96,24,9" shape="circle">
+              <area id="4" name="A1-4" alt="" title="4" href="#" coords="125,22,9" shape="circle">
+              <area id="5" name="A1-5" alt="" title="5" href="#" coords="155,21,9" shape="circle">
+              <area id="6" name="A1-6" alt="" title="6" href="#" coords="186,20,9"  shape="circle">
+              <area id="7" name="A1-7" alt="" title="7" href="#" coords="216,20,9"  shape="circle">
+              <area id="8" name="A1-8" alt="" title="8" href="#" coords="247,21,9"  shape="circle">
+              <area id="9" name="A1-9" alt="" title="9" href="#" coords="279,22,9"  shape="circle">
+              <area id="10" name="A1-10" alt="" title="10" href="#" coords="309,25,9"  shape="circle">
+              <area id="11" name="A1-11" alt="" title="11" href="#" coords="338,27,9"  shape="circle">
+              <area id="12" name="A1-12" alt="" title="12" href="#" coords="368,32,9"  shape="circle">
+              <area id="13" name="A1-13" alt="" title="13" href="#" coords="47,57,9"  shape="circle">
+              <area id="14" name="A1-14" alt="" title="14" href="#" coords="79,53,9"  shape="circle">
+              <area id="15" name="A1-15" alt="" title="15" href="#" coords="108,51,9"  shape="circle">
+              <area id="16" name="A1-16" alt="" title="16" href="#" coords="138,50,9"  shape="circle">
+              <area id="17" name="A1-17" alt="" title="17" href="#" coords="167,49,9"  shape="circle">
+              <area id="18" name="A1-18" alt="" title="18" href="#" coords="198,48,9"  shape="circle">
+              <area id="19" name="A1-19" alt="" title="19" href="#" coords="229,48,9"  shape="circle">
+              <area id="20" name="A1-20" alt="" title="10" href="#" coords="259,48,9"  shape="circle">
+              <area id="21" name="A1-21" alt="" title="21" href="#" coords="291,50,9"  shape="circle">
+              <area id="22" name="A1-22" alt="" title="22" href="#" coords="323,52,9"  shape="circle">
+              <area id="23" name="A1-23" alt="" title="23" href="#" coords="358,55,9"  shape="circle">
+              <area id="24" name="A1-24" alt="" title="24" href="#" coords="54,85,9"  shape="circle">
+              <area id="25" name="A1-25" alt="" title="25" href="#" coords="84,81,9"  shape="circle">
+              <area id="26" name="A1-26" alt="" title="26" href="#" coords="113,79,9"  shape="circle">
+              <area id="27" name="A1-27" alt="" title="27" href="#" coords="143,77,9"  shape="circle">
+              <area id="28" name="A1-28" alt="" title="28" href="#" coords="172,77,9"  shape="circle">
+              <area id="29" name="A1-29" alt="" title="29" href="#" coords="203,76,9"  shape="circle">
+              <area id="30" name="A1-30" alt="" title="30" href="#" coords="234,76,9"  shape="circle">
+              <area id="31" name="A1-31" alt="" title="31" href="#" coords="265,76,9"  shape="circle">
+              <area id="32" name="A1-32" alt="" title="32" href="#" coords="293,78,9"  shape="circle">
+              <area id="33" name="A1-33" alt="" title="33" href="#" coords="323,80,9"  shape="circle">
+              <area id="34" name="A1-34" alt="" title="34" href="#" coords="351,83,9"  shape="circle">
+              <area id="35" name="A1-35" alt="" title="35" href="#" coords="66,110,9"  shape="circle">
+              <area id="36" name="A1-36" alt="" title="36" href="#" coords="95,107,9"  shape="circle">
+              <area id="37" name="A1-37" alt="" title="37" href="#" coords="125,104,9"  shape="circle">
+              <area id="38" name="A1-38" alt="" title="38" href="#" coords="154,103,9"  shape="circle">
+              <area id="39" name="A1-39" alt="" title="39" href="#" coords="184,102,9"  shape="circle">
+              <area id="40" name="A1-40" alt="" title="40" href="#" coords="214,101,9"  shape="circle">
+              <area id="41" name="A1-41" alt="" title="41" href="#" coords="245,101,9"  shape="circle">
+              <area id="42" name="A1-42" alt="" title="42" href="#" coords="276,102,9"  shape="circle">
+              <area id="43" name="A1-43" alt="" title="43" href="#" coords="307,103,9"  shape="circle">
+              <area id="44" name="A1-44" alt="" title="44" href="#" coords="340,105,9"  shape="circle">
+            </map>
+            <br>
+            <table>
+              <tbody>
+                <tr>
+                  <td>
+                    <i class="fa fa-circle" style="font-size: 30px; color:gray"></i> Puesto Disponible
+                  </td>
+                  <td>
+                    <i class="fa fa-circle" style="font-size: 30px; color:blue"></i> Puesto seleccionado      
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <i class="fa fa-circle" style="font-size: 30px; color:red"></i> Puesto ocupado      
+                  </td>
+                  <td>
+                    <i class="fa fa-circle" style="font-size: 30px; color:green"></i> Ticket en reventa      
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div id="seats-A2">
+            <br><br><br>
+            <img src="../assets/images/A1.png" class="map-A2-img" alt="" usemap="#map-A2" />
+            <map id="map-A2" name="map-A2">
+              <area id="1" name="A2-1" alt="" title="1" href="#" coords="37,30,9"  shape="circle" >
+              <area id="2" name="A2-2" alt="" title="2" href="#" coords="67,27,9"  shape="circle">
+              <area id="3" name="A2-3" alt="" title="3" href="#" coords="96,24,9"  shape="circle">
+              <area id="4" name="A2-4" alt="" title="4" href="#" coords="125,22,9" shape="circle">
+              <area id="5" name="A2-5" alt="" title="5" href="#" coords="155,21,9" shape="circle">
+              <area id="6" name="A2-6" alt="" title="6" href="#" coords="186,20,9" shape="circle">
+              <area id="7" name="A2-7" alt="" title="7" href="#" coords="216,20,9" shape="circle">
+              <area id="8" name="A2-8" alt="" title="8" href="#" coords="247,21,9" shape="circle">
+              <area id="9" name="A2-9" alt="" title="9" href="#" coords="279,22,9" shape="circle">
+              <area id="10" name="A2-10" alt="" title="10" href="#" coords="309,25,9" shape="circle">
+              <area id="11" name="A2-11" alt="" title="11" href="#" coords="338,27,9" shape="circle">
+              <area id="12" name="A2-12" alt="" title="12" href="#" coords="368,32,9" shape="circle">
+              <area id="13" name="A2-13" alt="" title="13" href="#" coords="47,57,9" shape="circle">
+              <area id="14" name="A2-14" alt="" title="14" href="#" coords="79,53,9" shape="circle">
+              <area id="15" name="A2-15" alt="" title="15" href="#" coords="108,51,9" shape="circle">
+              <area id="16" name="A2-16" alt="" title="16" href="#" coords="138,50,9" shape="circle">
+              <area id="17" name="A2-17" alt="" title="17" href="#" coords="167,49,9" shape="circle">
+              <area id="18" name="A2-18" alt="" title="18" href="#" coords="198,48,9" shape="circle">
+              <area id="19" name="A2-19" alt="" title="19" href="#" coords="229,48,9" shape="circle">
+              <area id="20" name="A2-20" alt="" title="10" href="#" coords="259,48,9" shape="circle">
+              <area id="21" name="A2-21" alt="" title="21" href="#" coords="291,50,9" shape="circle">
+              <area id="22" name="A2-22" alt="" title="22" href="#" coords="323,52,9" shape="circle">
+              <area id="23" name="A2-23" alt="" title="23" href="#" coords="358,55,9" shape="circle">
+              <area id="24" name="A2-24" alt="" title="24" href="#" coords="54,85,9" shape="circle">
+              <area id="25" name="A2-25" alt="" title="25" href="#" coords="84,81,9" shape="circle">
+              <area id="26" name="A2-26" alt="" title="26" href="#" coords="113,79,9" shape="circle">
+              <area id="27" name="A2-27" alt="" title="27" href="#" coords="143,77,9" shape="circle">
+              <area id="28" name="A2-28" alt="" title="28" href="#" coords="172,77,9" shape="circle">
+              <area id="29" name="A2-29" alt="" title="29" href="#" coords="203,76,9" shape="circle">
+              <area id="30" name="A2-30" alt="" title="30" href="#" coords="234,76,9" shape="circle">
+              <area id="31" name="A2-31" alt="" title="31" href="#" coords="265,76,9" shape="circle">
+              <area id="32" name="A2-32" alt="" title="32" href="#" coords="293,78,9" shape="circle">
+              <area id="33" name="A2-33" alt="" title="33" href="#" coords="323,80,9" shape="circle">
+              <area id="34" name="A2-34" alt="" title="34" href="#" coords="351,83,9" shape="circle">
+              <area id="35" name="A2-35" alt="" title="35" href="#" coords="66,110,9" shape="circle">
+              <area id="36" name="A2-36" alt="" title="36" href="#" coords="95,107,9" shape="circle">
+              <area id="37" name="A2-37" alt="" title="37" href="#" coords="125,104,9" shape="circle">
+              <area id="38" name="A2-38" alt="" title="38" href="#" coords="154,103,9" shape="circle">
+              <area id="39" name="A2-39" alt="" title="39" href="#" coords="184,102,9" shape="circle">
+              <area id="40" name="A2-40" alt="" title="40" href="#" coords="214,101,9" shape="circle">
+              <area id="41" name="A2-41" alt="" title="41" href="#" coords="245,101,9" shape="circle">
+              <area id="42" name="A2-42" alt="" title="42" href="#" coords="276,102,9" shape="circle">
+              <area id="43" name="A2-43" alt="" title="43" href="#" coords="307,103,9" shape="circle">
+              <area id="45" name="A2-45" alt="" title="45" href="#" coords="340,105,9" shape="circle">
+            </map>
+            <table>
+              <tbody>
+                <tr>
+                  <td>
+                    <i class="fa fa-circle" style="font-size: 30px; color:gray"></i> Puesto Disponible
+                  </td>
+                  <td>
+                    <i class="fa fa-circle" style="font-size: 30px; color:blue"></i> Puesto seleccionado      
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <i class="fa fa-circle" style="font-size: 30px; color:red"></i> Puesto ocupado      
+                  </td>
+                  <td>
+                    <i class="fa fa-circle" style="font-size: 30px; color:green"></i> Ticket en reventa      
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div id="seats-B1">
+            <br><br><br>
+            <img src="../assets/images/A1.png" class="map-B1-img" alt="" usemap="#map-B1" />
+            <map id="map-B1" name="map-B1">
+              <area id="1" name="B1-1" alt="" title="1" href="#" coords="37,30,9"  shape="circle" >
+              <area id="2" name="B1-2" alt="" title="2" href="#" coords="67,27,9"  shape="circle">
+              <area id="3" name="B1-3" alt="" title="3" href="#" coords="96,24,9"  shape="circle">
+              <area id="4" name="B1-4" alt="" title="4" href="#" coords="125,22,9" shape="circle">
+              <area id="5" name="B1-5" alt="" title="5" href="#" coords="155,21,9" shape="circle">
+              <area id="6" name="B1-6" alt="" title="6" href="#" coords="186,20,9" shape="circle">
+              <area id="7" name="B1-7" alt="" title="7" href="#" coords="216,20,9" shape="circle">
+              <area id="8" name="B1-8" alt="" title="8" href="#" coords="247,21,9" shape="circle">
+              <area id="9" name="B1-9" alt="" title="9" href="#" coords="279,22,9" shape="circle">
+              <area id="10" name="B1-10" alt="" title="10" href="#" coords="309,25,9" shape="circle">
+              <area id="11" name="B1-11" alt="" title="11" href="#" coords="338,27,9" shape="circle">
+              <area id="12" name="B1-12" alt="" title="12" href="#" coords="368,32,9" shape="circle">
+              <area id="13" name="B1-13" alt="" title="13" href="#" coords="47,57,9" shape="circle">
+              <area id="14" name="B1-14" alt="" title="14" href="#" coords="79,53,9" shape="circle">
+              <area id="15" name="B1-15" alt="" title="15" href="#" coords="108,51,9" shape="circle">
+              <area id="16" name="B1-16" alt="" title="16" href="#" coords="138,50,9" shape="circle">
+              <area id="17" name="B1-17" alt="" title="17" href="#" coords="167,49,9" shape="circle">
+              <area id="18" name="B1-18" alt="" title="18" href="#" coords="198,48,9" shape="circle">
+              <area id="19" name="B1-19" alt="" title="19" href="#" coords="229,48,9" shape="circle">
+              <area id="20" name="B1-20" alt="" title="10" href="#" coords="259,48,9" shape="circle">
+              <area id="21" name="B1-21" alt="" title="21" href="#" coords="291,50,9" shape="circle">
+              <area id="22" name="B1-22" alt="" title="22" href="#" coords="323,52,9" shape="circle">
+              <area id="23" name="B1-23" alt="" title="23" href="#" coords="358,55,9" shape="circle">
+              <area id="24" name="B1-24" alt="" title="24" href="#" coords="54,85,9" shape="circle">
+              <area id="25" name="B1-25" alt="" title="25" href="#" coords="84,81,9" shape="circle">
+              <area id="26" name="B1-26" alt="" title="26" href="#" coords="113,79,9" shape="circle">
+              <area id="27" name="B1-27" alt="" title="27" href="#" coords="143,77,9" shape="circle">
+              <area id="28" name="B1-28" alt="" title="28" href="#" coords="172,77,9" shape="circle">
+              <area id="29" name="B1-29" alt="" title="29" href="#" coords="203,76,9" shape="circle">
+              <area id="30" name="B1-30" alt="" title="30" href="#" coords="234,76,9" shape="circle">
+              <area id="31" name="B1-31" alt="" title="31" href="#" coords="265,76,9" shape="circle">
+              <area id="32" name="B1-32" alt="" title="32" href="#" coords="293,78,9" shape="circle">
+              <area id="33" name="B1-33" alt="" title="33" href="#" coords="323,80,9" shape="circle">
+              <area id="34" name="B1-34" alt="" title="34" href="#" coords="351,83,9" shape="circle">
+              <area id="35" name="B1-35" alt="" title="35" href="#" coords="66,110,9" shape="circle">
+              <area id="36" name="B1-36" alt="" title="36" href="#" coords="95,107,9" shape="circle">
+              <area id="37" name="B1-37" alt="" title="37" href="#" coords="125,104,9" shape="circle">
+              <area id="38" name="B1-38" alt="" title="38" href="#" coords="154,103,9" shape="circle">
+              <area id="39" name="B1-39" alt="" title="39" href="#" coords="184,102,9" shape="circle">
+              <area id="40" name="B1-40" alt="" title="40" href="#" coords="214,101,9" shape="circle">
+              <area id="41" name="B1-41" alt="" title="41" href="#" coords="245,101,9" shape="circle">
+              <area id="42" name="B1-42" alt="" title="42" href="#" coords="276,102,9" shape="circle">
+              <area id="43" name="B1-43" alt="" title="43" href="#" coords="307,103,9" shape="circle">
+              <area id="45" name="B1-45" alt="" title="45" href="#" coords="340,105,9" shape="circle">
+            </map>
+            <table>
+              <tbody>
+                <tr>
+                  <td>
+                    <i class="fa fa-circle" style="font-size: 30px; color:gray"></i> Puesto Disponible
+                  </td>
+                  <td>
+                    <i class="fa fa-circle" style="font-size: 30px; color:blue"></i> Puesto seleccionado      
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <i class="fa fa-circle" style="font-size: 30px; color:red"></i> Puesto ocupado      
+                  </td>
+                  <td>
+                    <i class="fa fa-circle" style="font-size: 30px; color:green"></i> Ticket en reventa      
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div id="seats-B2">
+            <br><br><br>
+            <img src="../assets/images/A1.png" class="map-B2-img" alt="" usemap="#map-B2" />
+            <map id="map-B2" name="map-B2">
+              <area id="1" name="B2-1" alt="" title="1" href="#" coords="37,30,9"  shape="circle" >
+              <area id="2" name="B2-2" alt="" title="2" href="#" coords="67,27,9"  shape="circle">
+              <area id="3" name="B2-3" alt="" title="3" href="#" coords="96,24,9"  shape="circle">
+              <area id="4" name="B2-4" alt="" title="4" href="#" coords="125,22,9" shape="circle">
+              <area id="5" name="B2-5" alt="" title="5" href="#" coords="155,21,9" shape="circle">
+              <area id="6" name="B2-6" alt="" title="6" href="#" coords="186,20,9" shape="circle">
+              <area id="7" name="B2-7" alt="" title="7" href="#" coords="216,20,9" shape="circle">
+              <area id="8" name="B2-8" alt="" title="8" href="#" coords="247,21,9" shape="circle">
+              <area id="9" name="B2-9" alt="" title="9" href="#" coords="279,22,9" shape="circle">
+              <area id="10" name="B2-10" alt="" title="10" href="#" coords="309,25,9" shape="circle">
+              <area id="11" name="B2-11" alt="" title="11" href="#" coords="338,27,9" shape="circle">
+              <area id="12" name="B2-12" alt="" title="12" href="#" coords="368,32,9" shape="circle">
+              <area id="13" name="B2-13" alt="" title="13" href="#" coords="47,57,9" shape="circle">
+              <area id="14" name="B2-14" alt="" title="14" href="#" coords="79,53,9" shape="circle">
+              <area id="15" name="B2-15" alt="" title="15" href="#" coords="108,51,9" shape="circle">
+              <area id="16" name="B2-16" alt="" title="16" href="#" coords="138,50,9" shape="circle">
+              <area id="17" name="B2-17" alt="" title="17" href="#" coords="167,49,9" shape="circle">
+              <area id="18" name="B2-18" alt="" title="18" href="#" coords="198,48,9" shape="circle">
+              <area id="19" name="B2-19" alt="" title="19" href="#" coords="229,48,9" shape="circle">
+              <area id="20" name="B2-20" alt="" title="10" href="#" coords="259,48,9" shape="circle">
+              <area id="21" name="B2-21" alt="" title="21" href="#" coords="291,50,9" shape="circle">
+              <area id="22" name="B2-22" alt="" title="22" href="#" coords="323,52,9" shape="circle">
+              <area id="23" name="B2-23" alt="" title="23" href="#" coords="358,55,9" shape="circle">
+              <area id="24" name="B2-24" alt="" title="24" href="#" coords="54,85,9" shape="circle">
+              <area id="25" name="B2-25" alt="" title="25" href="#" coords="84,81,9" shape="circle">
+              <area id="26" name="B2-26" alt="" title="26" href="#" coords="113,79,9" shape="circle">
+              <area id="27" name="B2-27" alt="" title="27" href="#" coords="143,77,9" shape="circle">
+              <area id="28" name="B2-28" alt="" title="28" href="#" coords="172,77,9" shape="circle">
+              <area id="29" name="B2-29" alt="" title="29" href="#" coords="203,76,9" shape="circle">
+              <area id="30" name="B2-30" alt="" title="30" href="#" coords="234,76,9" shape="circle">
+              <area id="31" name="B2-31" alt="" title="31" href="#" coords="265,76,9" shape="circle">
+              <area id="32" name="B2-32" alt="" title="32" href="#" coords="293,78,9" shape="circle">
+              <area id="33" name="B2-33" alt="" title="33" href="#" coords="323,80,9" shape="circle">
+              <area id="34" name="B2-34" alt="" title="34" href="#" coords="351,83,9" shape="circle">
+              <area id="35" name="B2-35" alt="" title="35" href="#" coords="66,110,9" shape="circle">
+              <area id="36" name="B2-36" alt="" title="36" href="#" coords="95,107,9" shape="circle">
+              <area id="37" name="B2-37" alt="" title="37" href="#" coords="125,104,9" shape="circle">
+              <area id="38" name="B2-38" alt="" title="38" href="#" coords="154,103,9" shape="circle">
+              <area id="39" name="B2-39" alt="" title="39" href="#" coords="184,102,9" shape="circle">
+              <area id="40" name="B2-40" alt="" title="40" href="#" coords="214,101,9" shape="circle">
+              <area id="41" name="B2-41" alt="" title="41" href="#" coords="245,101,9" shape="circle">
+              <area id="42" name="B2-42" alt="" title="42" href="#" coords="276,102,9" shape="circle">
+              <area id="43" name="B2-43" alt="" title="43" href="#" coords="307,103,9" shape="circle">
+              <area id="45" name="B2-45" alt="" title="45" href="#" coords="340,105,9" shape="circle">
+            </map>
+            <table>
+              <tbody>
+                <tr>
+                  <td>
+                    <i class="fa fa-circle" style="font-size: 30px; color:gray"></i> Puesto Disponible
+                  </td>
+                  <td>
+                    <i class="fa fa-circle" style="font-size: 30px; color:blue"></i> Puesto seleccionado      
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <i class="fa fa-circle" style="font-size: 30px; color:red"></i> Puesto ocupado      
+                  </td>
+                  <td>
+                    <i class="fa fa-circle" style="font-size: 30px; color:green"></i> Ticket en reventa      
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div id="seats-VIP">
+            <br><br><br>
+            <img src="../assets/images/A1.png" class="map-VIP-img" alt="" usemap="#map-VIP" />
+            <map id="map-VIP" name="map-VIP">
+              <area id="1" name="VIP-1" alt="" title="1" href="#" coords="37,30,9"  shape="circle" >
+              <area id="2" name="VIP-2" alt="" title="2" href="#" coords="67,27,9"  shape="circle">
+              <area id="3" name="VIP-3" alt="" title="3" href="#" coords="96,24,9"  shape="circle">
+              <area id="4" name="VIP-4" alt="" title="4" href="#" coords="125,22,9" shape="circle">
+              <area id="5" name="VIP-5" alt="" title="5" href="#" coords="155,21,9" shape="circle">
+              <area id="6" name="VIP-6" alt="" title="6" href="#" coords="186,20,9" shape="circle">
+              <area id="7" name="VIP-7" alt="" title="7" href="#" coords="216,20,9" shape="circle">
+              <area id="8" name="VIP-8" alt="" title="8" href="#" coords="247,21,9" shape="circle">
+              <area id="9" name="VIP-9" alt="" title="9" href="#" coords="279,22,9" shape="circle">
+              <area id="10" name="VIP-10" alt="" title="10" href="#" coords="309,25,9" shape="circle">
+              <area id="11" name="VIP-11" alt="" title="11" href="#" coords="338,27,9" shape="circle">
+              <area id="12" name="VIP-12" alt="" title="12" href="#" coords="368,32,9" shape="circle">
+              <area id="13" name="VIP-13" alt="" title="13" href="#" coords="47,57,9" shape="circle">
+              <area id="14" name="VIP-14" alt="" title="14" href="#" coords="79,53,9" shape="circle">
+              <area id="15" name="VIP-15" alt="" title="15" href="#" coords="108,51,9" shape="circle">
+              <area id="16" name="VIP-16" alt="" title="16" href="#" coords="138,50,9" shape="circle">
+              <area id="17" name="VIP-17" alt="" title="17" href="#" coords="167,49,9" shape="circle">
+              <area id="18" name="VIP-18" alt="" title="18" href="#" coords="198,48,9" shape="circle">
+              <area id="19" name="VIP-19" alt="" title="19" href="#" coords="229,48,9" shape="circle">
+              <area id="20" name="VIP-20" alt="" title="10" href="#" coords="259,48,9" shape="circle">
+              <area id="21" name="VIP-21" alt="" title="21" href="#" coords="291,50,9" shape="circle">
+              <area id="22" name="VIP-22" alt="" title="22" href="#" coords="323,52,9" shape="circle">
+              <area id="23" name="VIP-23" alt="" title="23" href="#" coords="358,55,9" shape="circle">
+              <area id="24" name="VIP-24" alt="" title="24" href="#" coords="54,85,9" shape="circle">
+              <area id="25" name="VIP-25" alt="" title="25" href="#" coords="84,81,9" shape="circle">
+              <area id="26" name="VIP-26" alt="" title="26" href="#" coords="113,79,9" shape="circle">
+              <area id="27" name="VIP-27" alt="" title="27" href="#" coords="143,77,9" shape="circle">
+              <area id="28" name="VIP-28" alt="" title="28" href="#" coords="172,77,9" shape="circle">
+              <area id="29" name="VIP-29" alt="" title="29" href="#" coords="203,76,9" shape="circle">
+              <area id="30" name="VIP-30" alt="" title="30" href="#" coords="234,76,9" shape="circle">
+              <area id="31" name="VIP-31" alt="" title="31" href="#" coords="265,76,9" shape="circle">
+              <area id="32" name="VIP-32" alt="" title="32" href="#" coords="293,78,9" shape="circle">
+              <area id="33" name="VIP-33" alt="" title="33" href="#" coords="323,80,9" shape="circle">
+              <area id="34" name="VIP-34" alt="" title="34" href="#" coords="351,83,9" shape="circle">
+              <area id="35" name="VIP-35" alt="" title="35" href="#" coords="66,110,9" shape="circle">
+              <area id="36" name="VIP-36" alt="" title="36" href="#" coords="95,107,9" shape="circle">
+              <area id="37" name="VIP-37" alt="" title="37" href="#" coords="125,104,9" shape="circle">
+              <area id="38" name="VIP-38" alt="" title="38" href="#" coords="154,103,9" shape="circle">
+              <area id="39" name="VIP-39" alt="" title="39" href="#" coords="184,102,9" shape="circle">
+              <area id="40" name="VIP-40" alt="" title="40" href="#" coords="214,101,9" shape="circle">
+              <area id="41" name="VIP-41" alt="" title="41" href="#" coords="245,101,9" shape="circle">
+              <area id="42" name="VIP-42" alt="" title="42" href="#" coords="276,102,9" shape="circle">
+              <area id="43" name="VIP-43" alt="" title="43" href="#" coords="307,103,9" shape="circle">
+              <area id="45" name="VIP-45" alt="" title="45" href="#" coords="340,105,9" shape="circle">
+            </map>
+            <table>
+              <tbody>
+                <tr>
+                  <td>
+                    <i class="fa fa-circle" style="font-size: 30px; color:gray"></i> Puesto Disponible
+                  </td>
+                  <td>
+                    <i class="fa fa-circle" style="font-size: 30px; color:blue"></i> Puesto seleccionado      
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <i class="fa fa-circle" style="font-size: 30px; color:red"></i> Puesto ocupado      
+                  </td>
+                  <td>
+                    <i class="fa fa-circle" style="font-size: 30px; color:green"></i> Ticket en reventa      
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+        </div>
+
+
+        <div class="col s6" style="float: right;">
+          <h5> Tickets </h5>
+          <table class="striped" id="unconfirm">
+            <thead>
+              <tr>
+                <th>Zona</th>
+                <th>Silla</th>
+                <th>Precio</th>
+                <th>Reventa</th>
+              </tr>
+            </thead>
+            <tbody id="ticket-table">
+            </tbody>
+          </table>
+          <b><h5 id="totalPrice">Total: $ 0</h5></b>
+        </div>
+
+      </div>
+    </div>
+    <div id="thirdDiv">
+      <div id="button1" align="center">
+        <button id="buyTickets" class="btn" type="submit" name="action">
+          <i>Comprar Ticket</i>
+        </button>            
+      </div>
+    </div>
+    <br><br>
+  </div>
+</div>
+<div id="loading" hidden="true">
+  <div align="center" style="vertical-align: middle;">
+    <br><br><br>
+    <h5 >Espere un momento porfavor</h5>
+    <img style="width: 8%;" src="../../assets/images/giphy-preview.gif" alt="load-gif">
+    <br><br><br><br>
+  </div>
+</div>
+<div id="confirmTicket">
+  <div class="container">
+    <div class="row">
+      <h2> Compra exitosa </h2>
+      <div class="col s6">
+        <p>La compra fue exitosa.</p>
+        <p>Un correo de confirmación con la información de sus tickets ha sido enviada su correo electrónico</p>
+        <p><b>{{email}}</b></p>
+      </div>
+      <div class="col s6">
+        <div id="confirmationInfo"> 
+
+        </div>
+      </div>
+    </div>
+    <div id="button1" align="center">
+      <button id="buyTickets" class="btn" (click)="confirmation()">
+          <i>Reenviar E-mail</i>
+      </button>
+    </div>
+    <br>
+    <div id="button1" align="center">
+      <a href="/">
+        <button id="buyTickets" class="btn" type="submit" name="action">
+          <i>Volver a la Página Principal</i>
+        </button>   
+      </a>         
+    </div>
+  </div>
+</div>

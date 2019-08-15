@@ -1,0 +1,108 @@
+<div class="container">
+    <div class="collection" id="divLista" style="margin-top: 5%;border-color: rgba(42, 123, 177, 0.75);box-shadow: 0 3px 3px 0 rgba(0,0,0,0.14), 0 1px 7px 0 rgba(0,0,0,0.12), 0 3px 1px -1px rgba(0,0,0,0.2);">
+        <a class="collection-item active" id="firstDiv" style="background-color: rgba(42, 123, 177, 0.75)">
+            <div class="row">
+                <div class="col s12">
+                    <h4><span class="card-title">Tickets Comprados</span></h4>
+                </div>
+            </div>
+        </a>
+        <div id="lista" *ngFor="let Data of data">
+            <div id="{{Data['_id']}}">
+                <a class="collection-item">
+                    <div class="row">
+                        <div class="col s9">
+                            <span class="card-tittle">Evento:</span>
+                            <a routerLink="{{'/MostrarEvento/'+Data['eventID']}}"> 
+                                {{Data["name"]}}
+                            </a> <br>
+                            <span class="card-tittle">Precio:</span> <span style="color:black">{{Data["price"]}}</span> <br>
+                            <span class="card-tittle">Zona:</span> <span style="color:black">{{Data["zone"]}}</span> <br>
+                            <span class="card-tittle">Asiento:</span> <span style="color:black">{{Data["seat"]}}</span> <br>
+                            <span class="card-tittle">Estado:</span> <span style="color:black">{{Data["status"]}}</span> <br>
+                            <span class="card-tittle">Hash: </span>
+                            <a href="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data={{Data['hash']}}"> 
+                                <span>{{Data["hash"]}}</span> 
+                            </a><br>
+                        </div>
+                        <div class="col s3" style="margin-top:3%;" *ngIf='Data["status"] == "Sold"'>
+                            <a *ngIf='Data["canReturn"] == "True"' 
+                                class="btn-floating btn waves-effect waves-light blue modal-trigger" 
+                                href="#{{'modal_return' + Data['_id']}}">
+                                <i class="material-icons">
+                                    keyboard_return
+                                </i>
+                            </a>
+                            <a *ngIf='Data["canReturn"] == "False"' 
+                                class="btn-floating btn-large waves-effect waves-light gray">
+                                <i class="material-icons">
+                                    keyboard_return
+                                </i>
+                            </a>
+                            <a *ngIf='Data["resell"] == "True"'
+                                class="btn-floating btn waves-effect waves-light blue modal-trigger"
+                                href="#{{'modal_resell' + Data['_id']}}">
+                                <i class="material-icons">
+                                    attach_money
+                                </i>
+                            </a>
+                            <a *ngIf='Data["resell"] == "False"' 
+                                class="btn-floating btn-large waves-effect waves-light gray">
+                                <i class="material-icons">
+                                    attach_money
+                                </i>
+                            </a>
+                        </div>
+                        <div class="col s3" style="margin-top:3%;" *ngIf='Data["status"] == "Resell"'>
+                            <a *ngIf='Data["canReturn"] == "True"' 
+                                class="btn-floating btn waves-effect waves-light blue modal-trigger" 
+                                href="#{{'modal_cancelResell' + Data['_id']}}">
+                                <i class="material-icons" style="background-color:red">
+                                    attach_money
+                                </i>
+                            </a>
+                        </div>
+
+                          <!-- Modal returnTicket -->
+                        <div id="{{'modal_return' + Data['_id']}}" class="modal">
+                            <div class="modal-content">
+                              <h4>Retornar ticket</h4>
+                              <p>¿Desea retornar el ticket?</p>
+                            </div>
+                            <div class="modal-footer">
+                              <a (click)="canReturn(Data['_id'])" class="modal-action modal-close waves-effect waves-green btn-flat">Retornar</a>
+                              <a (click)="false" class="modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
+                            </div>
+                        </div>
+                          <!-- Modal resellTicket -->
+                          <div id="{{'modal_resell' + Data['_id']}}" class="modal">
+                            <div class="modal-content">
+                              <h4>Vender ticket</h4>
+                              <p>¿Desea poner en venta su ticket?</p>
+                              <input type="number" name="price" id="{{'resell_input' + Data['_id']}}" value="{{Data['price']}}">
+                              <p align="right"> {{input('resell_input' + Data['_id'])}} + 5% = {{total('resell_input' + Data['_id'])}}</p>
+                            </div>
+                            <div class="modal-footer">
+                              <a (click)="canResell(Data['_id'])" class="modal-action modal-close waves-effect waves-green btn-flat">Vender</a>
+                              <a (click)="false" class="modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
+                            </div>
+                        </div>
+                        <div id="{{'modal_cancelResell' + Data['_id']}}" class="modal">
+                            <div class="modal-content">
+                              <h4>Quitar ticket en reventa</h4>
+                              <p>¿Desea dejar de revender su ticket?</p>
+                            </div>
+                            <div class="modal-footer">
+                              <a (click)="cancelResell(Data['_id'])" class="modal-action modal-close waves-effect waves-green btn-flat">Dejar de revender</a>
+                              <a (click)="false" class="modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                </a>
+
+            </div>
+        </div>
+    </div>
+</div>
+<br><br><br><br>

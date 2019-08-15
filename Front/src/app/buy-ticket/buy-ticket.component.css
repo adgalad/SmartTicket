@@ -1,0 +1,28 @@
+
+#cuadro1 {
+    margin-top: 3%;
+    background-color:rgba(255, 174, 0, 0.87);
+    box-shadow: 0 3px 3px 0 rgba(0,0,0,0.14), 0 1px 7px 0 rgba(0,0,0,0.12), 0 3px 1px -1px rgba(0,0,0,0.2);
+}
+
+
+#firstDiv {
+    margin-left: 2%;
+    margin-right: 2%;
+    margin-top: 3%;
+    /*background-color:rgba(42, 123, 177, 0.75);*/
+    box-shadow: 0 3px 3px 0 rgba(0,0,0,0.14), 0 1px 7px 0 rgba(0,0,0,0.12), 0 3px 1px -1px rgba(0,0,0,0.2);
+}
+
+#secondDiv {
+    margin-left: 5%;
+    margin-right: 5%;
+    
+    /*background-color:rgba(255, 174, 0, 0.87);
+    box-shadow: 0 3px 3px 0 rgba(0,0,0,0.14), 0 1px 7px 0 rgba(0,0,0,0.12), 0 3px 1px -1px rgba(0,0,0,0.2);*/
+}
+
+/*#thirdDiv {
+    margin-left: 5%;
+    margin-right: 15%;
+}*/

@@ -1,0 +1,53 @@
+#firstDiv {
+    margin-left: 25%;
+    margin-right: 25%;
+    background-color: rgba(42, 123, 177, 0.75);
+    box-shadow: 0 3px 3px 0 rgba(0,0,0,0.14), 0 1px 7px 0 rgba(0,0,0,0.12), 0 3px 1px -1px rgba(0,0,0,0.2);
+}
+#secondDiv {
+    margin-top: 5%;
+    margin-left: 25%;
+    margin-right: 25%;
+}
+
+#button1 {
+    text-align: center;
+}
+
+.input-field input[type=text]:focus {
+   color: #FB014C !important;
+   border-bottom: 1px solid #FB014C !important;
+   box-shadow: 0 1px 0 0 #FB014C !important;
+}
+.input-field input[type=email]:focus {
+   color: #FB014C !important;
+   border-bottom: 1px solid #FB014C !important;
+   box-shadow: 0 1px 0 0 #FB014C !important;
+}
+.input-field input[type=password]:focus {
+   color: #FB014C !important;
+   border-bottom: 1px solid #FB014C !important;
+   box-shadow: 0 1px 0 0 #FB014C !important;
+}
+
+
+.input-field label {
+    color: white !important;
+}
+
+.input-field label:focus {
+    color: white !important;
+}
+i {
+    font-style: normal !important;
+}
+.btn, .btn-large{
+    text-transform: none !important;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 10%;
+    background-color: rgb(44, 177, 135);
+}
+
+input:not([type]), input[type=text]:not(.browser-default), input[type=password]:not(.browser-default), input[type=email]:not(.browser-default), input[type=url]:not(.browser-default), input[type=time]:not(.browser-default), input[type=date]:not(.browser-default), input[type=datetime]:not(.browser-default), input[type=datetime-local]:not(.browser-default), input[type=tel]:not(.browser-default), input[type=number]:not(.browser-default), input[type=search]:not(.browser-default), textarea.materialize-textarea{
+  border-bottom: 1px solid #e2d2d2 !important;
+}

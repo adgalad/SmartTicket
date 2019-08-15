@@ -1,0 +1,45 @@
+<div class="container">
+    <div class="row">
+      <br>
+      <div class="card blue-grey darken-1">
+        <div class="card-content white-text">
+            <div *ngIf="getImage() != '' ">
+              <img src="{{getImage()}}" alt="" width="150px" height="150px" style="position: absolute;">
+            </div>
+            <div *ngIf="getImage() == ''">
+              <img src="https://i0.wp.com/ebus.ca/wp-content/uploads/2017/08/profile-placeholder.jpg" alt="" width="150px" height="150px" style="position:absolute;">
+            </div>
+            <div style="margin-left: 20%; text-align: auto; position:relative; z-index: 3;">
+                <br>
+                <h5> Email: <b>{{getEmail()}}</b> </h5>
+                <h5> Balance: <b>$ {{balance}}</b></h5>
+                <br><br>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" id="card">
+        <a href="/Tickets">
+          <div class="col s6">
+            <div class="card blue-grey darken-1">
+              <div class="card-content white-text">
+              <br>
+                  <i id="add_box" class="material-icons">local_activity</i><span class="card-title"> <p id="p">Ver Tickets</p></span>
+              <br>
+              </div>
+            </div>
+          </div>
+        </a>
+        <a href="/Cuenta">
+          <div class="col s6">
+            <div class="card blue-grey darken-1">
+              <div class="card-content white-text">
+                  <br>
+                  <i id="add_box" class="material-icons">person</i><span class="card-title"> <p id="p">Ver Perfil</p></span>
+                  <br>
+                </div>
+            </div>
+          </div>
+        </a>
+    </div>
+</div>

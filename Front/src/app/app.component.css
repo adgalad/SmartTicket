@@ -1,0 +1,23 @@
+.nav-extended {
+    background-color:#4dacf0;
+}
+
+.brand-logo {
+    margin-left: 2%;
+}
+
+.page-footer {
+  background-color: #4dacf0;
+}
+
+.imagen {
+  height:60px;
+  width:60px;
+  border-radius: 50%;
+}
+
+#tabs {
+  width: 50% !important;
+  margin: 0% !important;
+}
+

@@ -1,0 +1,64 @@
+<div class="row" id="secondDiv">
+        <div class="card-panel red lighten-2" *ngIf="invalid_up">
+              <p>Email o contraseña incorrecta</p>
+        </div>
+</div>
+<div class="row" id="firstDiv">
+  <br>
+  <h5>Inicia sesión</h5>
+  <form class="col s12" (ngSubmit)="onSubmit(login)" #login="ngForm">
+      <div class="row">
+          <div class ="input-field col s12">
+            <input type="email" name="email" class="validate" required [(ngModel)]="user.email" #email="ngModel" [ngModelOptions]="{ updateOn: 'submit' }">
+            <label for="email">Email</label>
+          </div>
+      </div>
+      <div class="row">
+          <div class="input-field col s12">
+              <input id="pass" name="password" type="password" class="validate" required [(ngModel)]="user.password" #password="ngModel" [ngModelOptions]="{ updateOn: 'submit' }">
+              <label for="pass">Contraseña</label>
+          </div>
+      </div>
+      <div class="row">
+        <div class="col s12" id="button1">
+            <button style="background-color: rgb(17, 139, 142)" class="btn" type="submit" name="action">
+              <i>Iniciar Sesión</i>
+            </button>            
+        </div>
+      </div>
+  </form>
+  <div align="center">
+        <p style="color:white;">Si aun no tienes cuenta. <a style="color:rgba(0,25,255,0.7);" href="Registrar">Resgistrate</a> aquí.</p>
+  </div>
+</div>
+
+<div class="row" id="firstDiv">
+  <br>
+  <h5>Tambien puedes usar las redes</h5>
+  <br>
+  <div class="row" style="margin-left: 7%">
+    
+    <div class="col 4">
+      <div (click)="signInWithFB()">
+          <a class="waves-effect waves-light btn-large social facebook">
+          <i class="fa fa-facebook"></i>Facebook</a>              
+      </div>
+    </div>
+    <div class="col 4">
+      <div (click)="signInWithGoogle()">
+          <a class="waves-effect waves-light btn-large social google">
+          <i class="fa fa-google"></i>Google</a>              
+      </div>
+    </div>
+    <div class="col 4">
+        <div (click)="signInWithGoogle()">
+            <a class="waves-effect waves-light btn-large social twitter">
+            <i class="fa fa-twitter"></i>Twitter</a>              
+        </div>
+    </div>
+  </div>
+  <br>
+</div>
+
+
+

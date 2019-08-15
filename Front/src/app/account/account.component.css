@@ -1,0 +1,10 @@
+.btn, .btn-large{
+    text-transform: none !important;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 10%;
+    background-color: rgb(44, 177, 135);
+}
+
+#button1 {
+    text-align: center;
+}

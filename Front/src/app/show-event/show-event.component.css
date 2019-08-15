@@ -1,0 +1,50 @@
+#firstDiv {
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-top: 3%;
+    background-color: rgba(42, 123, 177, 0.75);
+    box-shadow: 0 3px 3px 0 rgba(0,0,0,0.14), 0 1px 7px 0 rgba(0,0,0,0.12), 0 3px 1px -1px rgba(0,0,0,0.2);
+}
+
+#secondDiv {
+    margin-left: 5%;
+    margin-right: 5%;
+
+    /*background-color:rgba(255, 174, 0, 0.87);
+    box-shadow: 0 3px 3px 0 rgba(0,0,0,0.14), 0 1px 7px 0 rgba(0,0,0,0.12), 0 3px 1px -1px rgba(0,0,0,0.2);*/
+}
+
+
+.input-field input[type=text]:focus {
+   color: #FB014C !important;
+   border-bottom: 1px solid #FB014C !important;
+   box-shadow: 0 1px 0 0 #FB014C !important;
+}
+.input-field input[type=email]:focus {
+   color: #FB014C !important;
+   border-bottom: 1px solid #FB014C !important;
+   box-shadow: 0 1px 0 0 #FB014C !important;
+}
+.input-field input[type=password]:focus {
+   color: #FB014C !important;
+   border-bottom: 1px solid #FB014C !important;
+   box-shadow: 0 1px 0 0 #FB014C !important;
+}
+
+
+.input-field label {
+    color: white !important;
+}
+
+.input-field label:focus {
+    color: white !important;
+}
+i {
+    font-style: normal !important;
+}
+.btn {
+    text-transform: none !important;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 6;
+    /*line-height: 10%;*/
+}

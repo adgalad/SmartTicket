@@ -1,0 +1,42 @@
+<div class="container">
+    <div class="collection" id="divLista" style="margin-top: 5%;border-color: rgba(42, 123, 177, 0.75);box-shadow: 0 3px 3px 0 rgba(0,0,0,0.14), 0 1px 7px 0 rgba(0,0,0,0.12), 0 3px 1px -1px rgba(0,0,0,0.2);">
+        <a class="collection-item active" id="firstDiv">
+            <div class="row">
+                <div class="col s4">
+                    <h4><span class="card-title">Nombre</span></h4>
+                </div>
+                <div class="col s4">
+                    <h4><span class="card-title">Lugar</span></h4>
+                </div>
+                <div class="col s4">
+                    <h4><span class="card-tittle">Fecha</span></h4>
+                </div>
+            </div>
+        </a>
+        <div id="lista" *ngFor="let event of events">
+                <a onclick="Modal(event)" class="collection-item" style="color: rgba(42, 123, 177, 0.75);">
+                    <div class="row">
+                        <div class="col s4">
+                            <span class="card-title">{{event["name"]}}</span>
+                        </div>
+                        <div class="col s4">
+                            <span class="card-title">{{event["place"]}}</span>
+                        </div>
+                        <div class="col s4">
+                            <span class="card-tittle">{{event["date"]}}</span>
+                        </div>
+                    </div>
+                </a>
+        </div>
+    </div>
+</div>
+
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <h4>Modal Header</h4>
+        <p>A bunch of text</p>
+    </div>
+    <div class="modal-footer">
+        <a class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+    </div>
+</div>

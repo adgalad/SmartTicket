@@ -1,0 +1,59 @@
+
+
+<div class="row" id="firstDiv">
+  <br>
+  <div class="container row">
+    <div class="col s6">
+      <img style='display:block; width:80%' id='base64image'                  
+         src='data:{{event.thumbnail.filetype}};base64,{{event.thumbnail.value}}' />
+      <br>
+      
+      <b> Lugar: </b> {{event.place}} <br>
+      <b> Fecha: </b> {{event.date.toLocaleDateString()}} <br>
+      <b> Hora:  </b> {{event.date.toLocaleTimeString()}} <br>
+      <b> ID:  </b> {{event._id}} <br>
+      <b> Categoría: </b> {{event.type}} <br>
+
+      <div *ngIf="event.delegate">
+        <i class="material-icons" style="color: green">check_circle</i> Delegar ticket
+      </div>
+      <div *ngIf="!event.delegate">
+        <i class="material-icons" style="color: red">not_interested</i> Delegar ticket
+      </div>
+      
+      <div *ngIf="event.resell">
+        <i class="material-icons" style="color: green">check_circle</i> Revender ticket
+      </div>
+      <div *ngIf="!event.resell">
+        <i class="material-icons" style="color: red">not_interested</i> Revender ticket
+      </div>
+      
+      <div *ngIf="event.canReturn">
+        <i class="material-icons" style="color: green">check_circle</i> Reembolsar ticket
+      </div>
+      <div *ngIf="!event.canReturn">
+        <i class="material-icons" style="color: red">not_interested</i> Reembolsar ticket
+      </div>
+      <br><br>
+      <div id="button1" align="left">
+        <a href="/ComprarTicket">
+          <button class="btn" type="submit" name="action">
+            <i>Comprar Ticket</i>
+          </button>            
+        </a>
+      </div>      
+      <!-- <p> <i class="material-icons" id="check_circle"></i> Se puede revender</i> </p> -->
+      <!-- <p> <i class="material-icons" id="check_circle"></i> Se puede reembolsar</i> </p> -->
+    </div>
+    <div class="col s6">
+      <h2>{{event.name}}</h2>
+      
+
+      <p>{{event.description}}</p> <br>
+
+    </div>
+  </div>
+
+  <br>
+  <br>
+</div>

@@ -1,0 +1,14 @@
+<div class="container">
+  <form (ngSubmit)="Update(edit)" #edit="ngForm">
+    <h4>Editar perfil</h4>
+    <input type="text" name="name" id="name" placeholder="Nombre" class="validate" required [(ngModel)]="user.name" #name="ngModel" [ngModelOptions]="{ updateOn: 'submit'}"><br>
+    <input type="text" name="lastname" id="lastname" placeholder="Apellido" class="validate" required [(ngModel)]="user.lastname" #name="ngModel" [ngModelOptions]="{ updateOn: 'submit'}"><br>
+    <input type="password" name="password" id="password" placeholder="Contraseña" class="validate" required [(ngModel)]="user.password" #name="ngModel" [ngModelOptions]="{ updateOn: 'submit'}"><br>
+    <input type="password" name="password2" id="password2" placeholder="Repetir Contraseña" class="validate" required [(ngModel)]="user.password2" #name="ngModel" [ngModelOptions]="{ updateOn: 'submit'}">
+    <div id="button1">
+        <button class="btn" type="submit" name="action">
+          <i>Guardar</i>
+        </button>
+    </div>  
+  </form>
+</div>
