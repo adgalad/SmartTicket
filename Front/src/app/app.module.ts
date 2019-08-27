@@ -24,10 +24,10 @@ import { ProfileComponent } from './profile/profile.component';
 import { TicketsComponent } from './tickets/tickets.component';
 import { AccountComponent } from './account/account.component';
 import {
-  SocialLoginModule, 
+  SocialLoginModule,
   AuthServiceConfig,
-  GoogleLoginProvider, 
-  FacebookLoginProvider, 
+  GoogleLoginProvider,
+  FacebookLoginProvider,
 } from 'ng4-social-login';
 
 const CONFIG = new AuthServiceConfig([
@@ -39,18 +39,18 @@ const CONFIG = new AuthServiceConfig([
     id: FacebookLoginProvider.PROVIDER_ID,
     provider: new FacebookLoginProvider('170243416939118')
   },
-]);
+], true);
 
 export function provideConfig() {
   return CONFIG;
 }
 
 const appRoutes: Routes = [
-  { path: 'Registrar', 
+  { path: 'Registrar',
     component: SignupComponent,
     canActivate: [AlwaysAuthGuard]
   },
-  { path: 'IniciarSesion', 
+  { path: 'IniciarSesion',
     component: LoginComponent,
     canActivate: [AlwaysAuthGuard]
   },
