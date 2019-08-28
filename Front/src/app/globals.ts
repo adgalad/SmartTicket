@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
 
-export const host = "http://0.0.0.0";
+export const host = "ec2-34-207-124-135.compute-1.amazonaws.com";
 
 @Injectable()
 export class Globals {
