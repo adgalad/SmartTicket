@@ -30,20 +30,20 @@ class userController(Resource):
         return {'success':False, 'message':'Wrong email or password'}, 405
       else:
         return {'success':True, 'name': user['name'], 'message': 'Login successful', 'balance': user['balance']}, 202
-    
+
     # Registrarse
     elif json['operation'] == 'signup':
       if not (json['lastname'] and json['name']):
         r = {}
         if not json['lastname']:
-          r['lastname'] = 'Missing argument'    
+          r['lastname'] = 'Missing argument'
         if not json['name']:
-          r['name'] = 'Missing argument'    
-        
+          r['name'] = 'Missing argument'
+
         return {'success': False, 'message': r}, 400
 
       success = DB.User.signUp(json['name'],json['lastname'],json['email'].lower(),json['password'], json['social'])
-       
+
       if not success:
         return {'success':False, 'message':'User exists'}, 405
       else:
@@ -61,14 +61,17 @@ class userController(Resource):
     elif json['operation'] == 'show':
       if json['email']:
         success = DB.User.showUser(json['email'])
-        return { 'success':True, 'name':success['name'], 'lastname':success['lastname'], 'balance': success['balance'] }, 200
+        if 'name' in success:
+          return { 'success':True, 'name':success['name'], 'lastname':success['lastname'], 'balance': success['balance'] }, 200
+        else:
+          return {'success':False, 'message':'No User'}, 405
       else:
         return {'success':False, 'message':'Wrong arguments'}, 405
 
     # Operacion incorrecta
     else:
       return {'success':False, 'message': 'Wrong operation'}, 405
-    
+
     return {'success':True, 'message':'OK'}, 200
 
 api.add_resource(userController, '/User')
