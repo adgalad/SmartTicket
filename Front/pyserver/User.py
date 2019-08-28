@@ -61,7 +61,7 @@ class userController(Resource):
     elif json['operation'] == 'show':
       if json['email']:
         success = DB.User.showUser(json['email'])
-        if 'name' in success:
+        if success and 'name' in success:
           return { 'success':True, 'name':success['name'], 'lastname':success['lastname'], 'balance': success['balance'] }, 200
         else:
           return {'success':False, 'message':'No User'}, 405
