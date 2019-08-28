@@ -7,12 +7,10 @@ import { SignupComponent } from './signup.component';
 @NgModule({
   imports: [
     CommonModule,
-    BrowserModule,
     FormsModule,
     ReactiveFormsModule
   ],
   declarations: [
-    SignupComponent
   ]
 })
 export class SignupModule { }

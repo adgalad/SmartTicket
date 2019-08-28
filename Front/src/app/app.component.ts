@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Globals } from './globals';
 import { Router } from '@angular/router';
 
-import { 
+import {
   AuthService,
 } from 'ng4-social-login';
 
@@ -18,7 +18,7 @@ export class AppComponent implements OnInit{
 
   title = 'app';
 
-  constructor(private authService: AuthService, private globals: Globals, private router: Router){
+  constructor(public authService: AuthService, public globals: Globals, public router: Router){
   }
 
   ngOnInit(){
@@ -37,7 +37,7 @@ export class AppComponent implements OnInit{
     this.globals.setImage("");
     this.router.navigateByUrl('/');
     window.location.reload();
-    
+
   }
 
 }

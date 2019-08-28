@@ -16,13 +16,13 @@ declare var $ :any;
 })
 export class CreateEventComponent implements OnInit {
   form: FormGroup;
-  event = {};
+  event: any = {};
 
   @ViewChild('fileInput') fileInput: ElementRef;
-  constructor(private fb: FormBuilder,
-              private http: HttpClient,
-              private router: Router,
-              private globals: Globals) {
+  constructor(public fb: FormBuilder,
+              public http: HttpClient,
+              public router: Router,
+              public globals: Globals) {
     this.event = {
       name: '',
       place: '',

@@ -8,7 +8,6 @@ import { Globals } from '../globals'
 @NgModule({
   imports: [
     CommonModule,
-    BrowserModule,
     FormsModule,
     ReactiveFormsModule
   ],

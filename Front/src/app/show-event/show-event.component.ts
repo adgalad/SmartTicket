@@ -14,11 +14,11 @@ declare var $ :any;
 })
 export class ShowEventComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute,
-              private http: HttpClient,
-              private currentEvent : CurrentEvent){}
+  constructor(public route: ActivatedRoute,
+              public http: HttpClient,
+              public currentEvent : CurrentEvent){}
 
-  event = {}
+  event: any = {}
 
   ngOnInit() {
 

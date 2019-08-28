@@ -13,7 +13,7 @@ declare var $ :any;
              , "../../../node_modules/font-awesome/css/font-awesome.css"]
 })
 export class BuyTicketComponent implements OnInit {
-  event = {}
+  event: any = {}
   email = localStorage.getItem('email')
   total = 0
   tickets = []
@@ -100,6 +100,7 @@ export class BuyTicketComponent implements OnInit {
     if (ticket!==undefined) $(name).click(function(e) {
       e.preventDefault()
       var data = $(name).mouseout().data('maphilight') || {};
+      console.log(">>>>", data)
       if ( data.fillColor === 'ff0000' ){ return; }
       data.fillOpcity = 1
       if (data.alwaysOn){

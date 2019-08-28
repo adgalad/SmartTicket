@@ -6,7 +6,6 @@ import { Globals, CurrentEvent } from '../globals';
 @NgModule({
   imports: [
     CommonModule,
-    BrowserModule
   ],
   providers: [
     Globals,
