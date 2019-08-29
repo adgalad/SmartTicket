@@ -85,7 +85,7 @@ const Event = {
     b.owner = req.decoded.id
     b.nSeat = seatID
     console.log(ethBody)
-    request.post(
+    return request.post(
       {url: 'http://localhost:3001/event',
         form: ethBody},
       (err, resp, body) => {
