@@ -44,7 +44,7 @@ const TicketSchema = new Schema({
 const SeatSchema = new Schema({
   name: {
     type: String,
-    default: []
+    default: ""
   },
   status: {
     type: String,
