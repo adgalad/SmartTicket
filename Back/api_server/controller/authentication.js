@@ -55,8 +55,8 @@ const authMiddleware = function (req, res, next, modifier) {
             if (req.query.token) delete req.query.token
             if (req.headers['x-access-token']) delete req.headers['x-access-token']
 
-            return next()
-            return res.status(200).json({ success: true })
+            next()
+            // return res.status(200).json({ success: true })
           })
       }
     })

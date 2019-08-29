@@ -85,7 +85,7 @@ const Event = {
     b.owner = req.decoded.id
     b.nSeat = seatID
     console.log(ethBody)
-    return request.post(
+    request.post(
       {url: 'http://localhost:3001/event',
         form: ethBody},
       (err, resp, body) => {
@@ -109,7 +109,7 @@ const Event = {
             if (!promoter) { return res.status(500).json({success: false, message: 'No promoter found: ' + req.decoded.id}) }
             promoter.events.push(event._id)
             promoter.save((e) => {
-              return res.status(202).json({
+              return res.status(202).send({
                 success: true,
                 message: event })
             })
@@ -216,7 +216,6 @@ const EventOperation = {
     }
     var delegatedHash = req.body.delegated ? req.body.delegated : '0x0'
     /****************/
-
     DB.Event.findOne({_id: name}, function (err, event) {
       if (err) {
         return res.send(err)
