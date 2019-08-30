@@ -89,26 +89,33 @@ const Event = {
       {url: 'http://localhost:3001/event',
         form: ethBody},
       (err, resp, body) => {
+        console.log(">>>>>>> 1")
         if (err) return res.status(500).send(err)
 
         try {
           b.ethereumHash = JSON.parse(body).hash
+          console.log(">>>>>>> try logrado")
         } catch (e) {
+          console.log(">>>>>>> catch")
           return res.status(405).send({
             success: false,
             message: 'ERROR: Invalid JSON from eth server. (Event/create)',
             body: e})
         }
+        console.log(">>>>>>> 2")
         console.log(b)
         var newEvent = new DB.Event(b)
         newEvent.save(function (err, event) {
+          console.log(">>>>>>> 3")
           if (err) { return res.status(500).send(err) }
           if (!event) { return res.status(500).json({ success: false, message: "Couldn't save event" }) }
           DB.EventPromoter.findOne({_id: req.decoded.id}, function (err, promoter) {
+            console.log(">>>>>>> 4")
             if (err) { return res.status(500).send(err) }
             if (!promoter) { return res.status(500).json({success: false, message: 'No promoter found: ' + req.decoded.id}) }
             promoter.events.push(event._id)
             promoter.save((e) => {
+              console.log(">>>>>>> 5")
               return res.status(202).send({
                 success: true,
                 message: event })
