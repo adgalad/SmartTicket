@@ -8,13 +8,13 @@ function loadContract (account, contractName) {
   contracts[contractName] = new web3.eth.Contract(
     json.abi,
     json.address,
-    {from: account, gas: '4700000'}
+    {from: account, gas: '0'}
   )
 }
 
 function sendTx (f) {
   return web3.eth.getAccounts().then(accounts => {
-    const sender = {from: accounts[0], gas: '4700000'}
+    const sender = {from: accounts[0], gas: '0'}
     var x = f.call()
     return f.send(sender)
       .then(function (e) {
@@ -28,7 +28,7 @@ function sendTx (f) {
 
 function sendTxAndGetInfo (f) {
   return web3.eth.getAccounts().then(accounts => {
-    const sender = {from: accounts[0], gas: '4700000'}
+    const sender = {from: accounts[0], gas: '0'}
     var res = f.call()
     if (!res) {
       return undefined
