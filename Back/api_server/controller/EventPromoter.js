@@ -23,7 +23,7 @@ const EventPromoter = {
           var newPromoter = new DB.EventPromoter(req.body)
           newPromoter.save(function (err, event) {
             if (err) res.send(err)
-            else res.send(event)
+            else res.json(event)
           })
         }
     )
@@ -38,7 +38,7 @@ const EventPromoter = {
     }
     DB.EventPromoter.find(req.query, function (err, promoter) {
       if (err) res.send(err)
-      else res.send(promoter)
+      else res.json(promoter)
     })
   },
 
@@ -64,8 +64,15 @@ const EventPromoter = {
     }
     console.log(query)
     DB.EventPromoter.findOne(query, function (err, promoter) {
-      if (err) res.status(500).send(err)
-      else res.status(202).send(promoter)
+      console.log(promoter)
+      if (err) {
+        console.log(err)
+        res.status(500).send(err)
+      }
+      else {
+        console.log(">>>>>>>>> HOLA")
+        res.status(202).json(promoter)
+      }
     })
   },
 
@@ -132,7 +139,7 @@ const EventPromoter = {
           })
 
           // return the information including token as JSON
-          res.send({
+          res.json({
             success: true,
             message: 'Enjoy your token!',
             token: token
