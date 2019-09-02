@@ -3,7 +3,7 @@
 *.bin
 Back/build/contracts/*
 */doc/*
-
+Front/dist/
 # Logs
 logs
 *.log
