@@ -89,20 +89,16 @@ const Event = {
       {url: 'http://localhost:3001/event',
         form: ethBody},
       (err, resp, body) => {
-        console.log(">>>>>>> 1")
         if (err) return res.status(500).send(err)
 
         try {
           b.ethereumHash = JSON.parse(body).hash
-          console.log(">>>>>>> try logrado")
         } catch (e) {
-          console.log(">>>>>>> catch")
           return res.status(405).send({
             success: false,
             message: 'ERROR: Invalid JSON from eth server. (Event/create)',
             body: e})
         }
-        console.log(">>>>>>> 2")
         console.log(b)
         var newEvent = new DB.Event(b)
         newEvent.save(function (err, event) {
