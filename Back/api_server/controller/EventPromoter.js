@@ -59,20 +59,13 @@ const EventPromoter = {
     //   return
     // }
     const query = {
-      _id: req.decoded.id,
+      // _id: req.decoded.id,
       email: req.decoded.email
     }
     console.log(query)
     DB.EventPromoter.findOne(query, function (err, promoter) {
-      console.log(promoter)
-      if (err) {
-        console.log(err)
-        res.status(500).send(err)
-      }
-      else {
-        console.log(">>>>>>>>> HOLA")
-        res.status(202).json(promoter)
-      }
+      if (err) res.status(500).send(err)
+      else res.status(202).json(promoter)
     })
   },
 
