@@ -29,7 +29,7 @@ class User:
     return DB.Users.find_one(var)
 
 
-class Event: 
+class Event:
   def create(name, place, date, description, id, t, resell, delegate, canReturn, owner, image, wallpaper, thumbnail):
     return DB.Events.insert_one({
       "name": name,
@@ -44,16 +44,25 @@ class Event:
       "wallpaper": wallpaper,
       "thumbnail": thumbnail
      })
+
+  def delete(event):
+    e = DB.Event.find_one({"_id":event})
+    if e == None:
+      return False
+    else:
+      DB.Event.delete_many({"_id":event})
+      return True
   ## Comprar Ticket
   def buyTicket(email, id, eventID, zone, seat,price,Hash):
     new = { "eventID": eventID, "status":"Sold", "zone":zone, "seat":seat, "price":price, "hash": Hash, "_id": id }
     var = { "email":email }
     DB.Users.update(var, { "$push": { "tickets": new }  } )
-    return True 
+    return True
   ## Mostrar tickets comprados de un usuario
   def showTickets(email):
     var = {"email":email}
     result = DB.Users.find_one(var)
+
     if "tickets" in result:
       return result["tickets"]
     else:
@@ -81,8 +90,8 @@ class Event:
         DB.ResellTickets.insert_one({"_id": ticket, "email": email, "price": price })
         DB.Users.update(var, { "$set": { "tickets": result['tickets']}})
         break
-    return True 
-  
+    return True
+
   def cancelTicketResell(ticket):
     t = DB.ResellTickets.find_one({"_id":ticket})
     if t == None:
@@ -133,9 +142,10 @@ class Event:
         'id':event['_id']
       })
     return res
-  
+
   def getFirstEvent():
-    return DB.Events.find_one()
+    e = DB.Events.find()
+    return e[e.count-1]
 
 
 
