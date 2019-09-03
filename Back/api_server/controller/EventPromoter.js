@@ -60,7 +60,7 @@ const EventPromoter = {
     // }
     const query = {
       // _id: req.decoded.id,
-      email: req.decoded.email
+      email: req.body.email
     }
     console.log(query)
     DB.EventPromoter.findOne(query, function (err, promoter) {
