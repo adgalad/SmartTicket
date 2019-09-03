@@ -144,7 +144,8 @@ class Event:
     return res
 
   def getFirstEvent():
-    return DB.Events.find()[DB.Events.count-1]
+    e = DB.Events.find()
+    return e[e.count()-1]
 
 
 
